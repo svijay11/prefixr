@@ -143,6 +143,35 @@
       color: var(--muted);
       cursor: pointer;
       transition: border-color 0.2s, box-shadow 0.2s;
+      max-width: 100%;
+    }
+    .install-cmd.block {
+      border-radius: 12px;
+      width: 100%;
+      justify-content: space-between;
+      text-align: left;
+    }
+    .install-cmd.block span:first-child {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-right: 0.5rem;
+    }
+    .install-options {
+      max-width: 640px;
+      margin: 0 auto 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .install-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      font-weight: 600;
+      text-align: left;
+      margin-bottom: -0.35rem;
+      padding-left: 0.25rem;
     }
     .install-cmd:hover {
       border-color: var(--accent);
@@ -563,14 +592,22 @@
       whether to preserve your prefix cache or summarize now — saving you money
       over the next five.
     </p>
-    <div class="hero-cta">
-      <div class="install-cmd" id="install-cmd" title="Click to copy">
+    <div class="install-options">
+      <div class="install-label">One-liner (curl)</div>
+      <div class="install-cmd block" title="Click to copy">
+        <span>curl -fsSL https://raw.githubusercontent.com/svijay11/prefixr/main/install.sh | bash</span>
+        <span class="copy-hint">Copy</span>
+      </div>
+      <div class="install-label">Or with pip</div>
+      <div class="install-cmd block" title="Click to copy">
         <span>python3 -m pip install --user "git+https://github.com/svijay11/prefixr.git"</span>
         <span class="copy-hint">Copy</span>
       </div>
+    </div>
+    <div class="hero-cta">
       <a href="#how" class="btn btn-ghost" title="Dashboard runs locally after you install Prefixr">How to open dashboard →</a>
     </div>
-    <p class="hero-sub">Requires Python 3.9+ · Local-first · Your API keys never leave your machine</p>
+    <p class="hero-sub">Requires Python 3.9+ and git · Local-first · Your API keys never leave your machine</p>
 
     <div class="install-steps">
       <h4>After install</h4>
@@ -579,7 +616,7 @@
         <li><code>prefixr run</code> — start the proxy + dashboard</li>
         <li>Open <code>http://localhost:4242/dashboard</code> in your browser</li>
       </ol>
-      <p class="install-note">Install from GitHub for now. <code>pip install prefixr</code> and <code>prefixr.dev</code> are not live yet.</p>
+      <p class="install-note">Both commands install from GitHub. <code>pip install prefixr</code> (PyPI) is not live yet.</p>
     </div>
 
     <div class="mockup-wrap">
@@ -741,7 +778,7 @@
         <div class="step">
           <div class="step-num">1</div>
           <h3>Install from GitHub</h3>
-          <p>Run <code style="font-family:monospace;font-size:0.85em;background:#fafaf8;padding:0.1rem 0.35rem;border-radius:4px;">python3 -m pip install --user "git+https://github.com/svijay11/prefixr.git"</code>, then <code style="font-family:monospace;font-size:0.85em;background:#fafaf8;padding:0.1rem 0.35rem;border-radius:4px;">prefixr init</code> to add API keys. Everything stays in <code style="font-family:monospace;font-size:0.85em;background:#fafaf8;padding:0.1rem 0.35rem;border-radius:4px;">~/.prefixr</code> on your machine.</p>
+          <p>Run the curl one-liner or <code style="font-family:monospace;font-size:0.85em;background:#fafaf8;padding:0.1rem 0.35rem;border-radius:4px;">python3 -m pip install --user "git+https://github.com/svijay11/prefixr.git"</code>, then <code style="font-family:monospace;font-size:0.85em;background:#fafaf8;padding:0.1rem 0.35rem;border-radius:4px;">prefixr init</code> to add API keys. Everything stays in <code style="font-family:monospace;font-size:0.85em;background:#fafaf8;padding:0.1rem 0.35rem;border-radius:4px;">~/.prefixr</code> on your machine.</p>
         </div>
         <div class="step">
           <div class="step-num">2</div>
@@ -762,11 +799,13 @@
     <div class="savings-label">average savings per agent session</div>
     <h2>Unlimited cache optimization, free</h2>
     <p>Runs entirely on your machine. Your keys, your data, your savings.</p>
-    <div class="install-cmd" id="install-cmd-2">
-      <span>python3 -m pip install --user "git+https://github.com/svijay11/prefixr.git"</span>
-      <span class="copy-hint">Copy</span>
+    <div class="install-options" style="margin:0 auto 1rem;">
+      <div class="install-cmd block" title="Click to copy">
+        <span>curl -fsSL https://raw.githubusercontent.com/svijay11/prefixr/main/install.sh | bash</span>
+        <span class="copy-hint">Copy</span>
+      </div>
     </div>
-    <p class="hero-sub" style="margin-top:1rem;">Then run <code style="font-family:monospace;background:#fff;padding:0.1rem 0.35rem;border-radius:4px;border:1px solid var(--border);">prefixr init</code> and <code style="font-family:monospace;background:#fff;padding:0.1rem 0.35rem;border-radius:4px;border:1px solid var(--border);">prefixr run</code></p>
+    <p class="hero-sub" style="margin-top:0;">Then run <code style="font-family:monospace;background:#fff;padding:0.1rem 0.35rem;border-radius:4px;border:1px solid var(--border);">prefixr init</code> and <code style="font-family:monospace;background:#fff;padding:0.1rem 0.35rem;border-radius:4px;border:1px solid var(--border);">prefixr run</code></p>
   </section>
 
   <footer>
