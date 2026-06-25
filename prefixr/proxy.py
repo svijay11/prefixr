@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 import httpx
 from fastapi import FastAPI, Header, HTTPException, Request, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from prefixr.cache import SessionLedger
@@ -379,6 +379,30 @@ def create_app(
         finally:
             proxy.event_bus.unsubscribe_ws(session_id, queue)
 
+    @app.get("/")
+    async def root():
+        return RedirectResponse(url="/dashboard")
+
+    @app.get("/v1")
+    async def v1_root():
+        return JSONResponse({
+            "service": "prefixr",
+            "status": "ok",
+            "message": "Prefixr proxy is running. Use POST for API calls.",
+            "endpoints": {
+                "openai": "POST /v1/chat/completions",
+                "anthropic": "POST /v1/messages",
+                "dashboard": "GET /dashboard",
+                "health": "GET /health",
+                "stats": "GET /stats",
+            },
+            "example": {
+                "url": "http://localhost:4242/v1/chat/completions",
+                "method": "POST",
+                "headers": {"Authorization": "Bearer YOUR_OPENAI_KEY"},
+            },
+        })
+
     @app.get("/health")
     async def health():
         return {
@@ -388,11 +412,19 @@ def create_app(
         }
 
     @app.get("/dashboard")
+    @app.get("/dashboard/")
     async def dashboard():
         index = STATIC_DIR / "index.html"
         if index.exists():
-            return FileResponse(index)
-        return JSONResponse({"message": "Dashboard not built. Run dashboard build."})
+            return FileResponse(index, media_type="text/html")
+        return JSONResponse(
+            status_code=503,
+            content={
+                "message": "Dashboard static files not found.",
+                "static_dir": str(STATIC_DIR),
+                "hint": "Reinstall with: pip install --force-reinstall .",
+            },
+        )
 
     if STATIC_DIR.exists():
         app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")

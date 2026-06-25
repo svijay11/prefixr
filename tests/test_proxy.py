@@ -22,6 +22,24 @@ class TestProxyEndpoints:
         data = resp.json()
         assert data["status"] == "ok"
 
+    def test_root_redirects_to_dashboard(self, client):
+        resp = client.get("/", follow_redirects=False)
+        assert resp.status_code == 307
+        assert resp.headers["location"] == "/dashboard"
+
+    def test_dashboard_serves_html(self, client):
+        resp = client.get("/dashboard")
+        assert resp.status_code == 200
+        assert "text/html" in resp.headers.get("content-type", "")
+        assert "prefixr" in resp.text.lower()
+
+    def test_v1_root_returns_info(self, client):
+        resp = client.get("/v1")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["service"] == "prefixr"
+        assert "endpoints" in data
+
     def test_list_sessions_empty(self, client):
         resp = client.get("/sessions")
         assert resp.status_code == 200

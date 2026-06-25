@@ -67,8 +67,11 @@ def run(port: int | None, providers: str | None):
     app = create_app(config, active)
 
     click.echo(f"Prefixr proxy running on http://localhost:{config.port}")
-    click.echo(f"Dashboard: http://localhost:{config.port}/dashboard")
-    click.echo(f"OpenAI-compatible: http://localhost:{config.port}/v1/chat/completions")
+    click.echo(f"Dashboard:  http://localhost:{config.port}/dashboard")
+    click.echo(f"Health:     http://localhost:{config.port}/health")
+    click.echo(f"OpenAI API: POST http://localhost:{config.port}/v1/chat/completions")
+    click.echo("")
+    click.echo("Open /dashboard in your browser — do not use / or /v1 for the UI.")
 
     uvicorn.run(app, host="0.0.0.0", port=config.port, log_level="info")
 
