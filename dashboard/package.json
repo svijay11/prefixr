@@ -1,0 +1,9 @@
+{
+  "name": "prefixr-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "mkdir -p ../prefixr/static && cp -r public/* ../prefixr/static/",
+    "dev": "npx --yes serve public -l 3000"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "prefixr",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "dashboard",
+    "landing"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "build:dashboard": "npm run build -w dashboard",
+    "build:landing": "npm run build -w landing",
+    "dev:dashboard": "npm run dev -w dashboard",
+    "dev:landing": "npm run dev -w landing"
+  }
+}
