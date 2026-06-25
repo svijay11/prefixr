@@ -1,25 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Prefixr one-liner installer — pipx-managed, no repo clone required
-# Usage: curl -fsSL prefixr.dev/install | bash
+# Prefixr installer — installs directly from GitHub
+# Usage: curl -fsSL https://raw.githubusercontent.com/svijay11/prefixr/main/install.sh | bash
 
-PREFIXR_VERSION="${PREFIXR_VERSION:-}"
+REPO="${PREFIXR_REPO:-git+https://github.com/svijay11/prefixr.git}"
 PIPX_BIN="${PIPX_BIN:-pipx}"
 
-echo "Installing Prefixr…"
+echo "Installing Prefixr from GitHub…"
 
-if ! command -v "$PIPX_BIN" &>/dev/null; then
-  echo "pipx not found. Installing pipx…"
-  python3 -m pip install --user pipx
-  python3 -m pipx ensurepath
-  export PATH="$HOME/.local/bin:$PATH"
-fi
-
-if [ -n "$PREFIXR_VERSION" ]; then
-  "$PIPX_BIN" install "prefixr==${PREFIXR_VERSION}" --force
+if command -v "$PIPX_BIN" &>/dev/null; then
+  "$PIPX_BIN" install "$REPO" --force
 else
-  "$PIPX_BIN" install prefixr --force
+  echo "pipx not found — installing with pip…"
+  python3 -m pip install --user "$REPO"
+  echo ""
+  echo "If 'prefixr' is not found, add pip's bin dir to PATH:"
+  echo "  export PATH=\"\$HOME/.local/bin:\$PATH\""
 fi
 
 echo ""

@@ -8,15 +8,33 @@ Everything runs on your machine with your own API keys. No data leaves your mach
 
 ## Install
 
-```bash
-pip install prefixr
-```
-
-Or one-liner (pipx-managed):
+**From GitHub (recommended — works today):**
 
 ```bash
-curl -fsSL prefixr.dev/install | bash
+python3 -m pip install --user "git+https://github.com/svijay11/prefixr.git"
 ```
+
+Or with [pipx](https://pipx.pypa.io/):
+
+```bash
+pipx install git+https://github.com/svijay11/prefixr.git
+```
+
+Or clone and install locally:
+
+```bash
+git clone https://github.com/svijay11/prefixr.git
+cd prefixr
+python3 -m pip install --user .
+```
+
+One-liner (downloads install script from GitHub):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/svijay11/prefixr/main/install.sh | bash
+```
+
+> **Note:** `pip install prefixr` and `prefixr.dev` are not live yet. Install from GitHub until the package is published to PyPI.
 
 ## Quick Start
 
