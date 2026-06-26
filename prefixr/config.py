@@ -14,6 +14,7 @@ DEFAULT_CONFIG = {
     "anthropic_api_key": "",
     "openai_api_key": "",
     "deepseek_api_key": "",
+    "gemini_api_key": "",
     "port": 4242,
     "prefixr_api_key": "",
     "optimizer": {
@@ -40,6 +41,7 @@ class PrefixrConfig:
     anthropic_api_key: str = ""
     openai_api_key: str = ""
     deepseek_api_key: str = ""
+    gemini_api_key: str = ""
     port: int = 4242
     prefixr_api_key: str = ""
     optimizer: OptimizerConfig = field(default_factory=OptimizerConfig)
@@ -55,6 +57,7 @@ class PrefixrConfig:
             anthropic_api_key=data.get("anthropic_api_key", ""),
             openai_api_key=data.get("openai_api_key", ""),
             deepseek_api_key=data.get("deepseek_api_key", ""),
+            gemini_api_key=data.get("gemini_api_key", ""),
             port=data.get("port", 4242),
             prefixr_api_key=data.get("prefixr_api_key", ""),
             optimizer=OptimizerConfig(
@@ -73,6 +76,7 @@ class PrefixrConfig:
             "anthropic_api_key": self.anthropic_api_key,
             "openai_api_key": self.openai_api_key,
             "deepseek_api_key": self.deepseek_api_key,
+            "gemini_api_key": self.gemini_api_key,
             "port": self.port,
             "prefixr_api_key": self.prefixr_api_key,
             "optimizer": {
@@ -90,6 +94,7 @@ class PrefixrConfig:
             "anthropic": self.anthropic_api_key,
             "openai": self.openai_api_key,
             "deepseek": self.deepseek_api_key,
+            "gemini": self.gemini_api_key,
         }
         return keys.get(provider, "")
 

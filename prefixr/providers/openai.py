@@ -90,4 +90,4 @@ class OpenAIAdapter(ProviderAdapter):
 
     def detect_provider(self, payload: dict[str, Any]) -> bool:
         model = payload.get("model", "")
-        return not model.startswith("claude-") and not model.startswith("deepseek-")
+        return not model.startswith("claude-") and not model.startswith("deepseek-") and not model.startswith("gemini-")

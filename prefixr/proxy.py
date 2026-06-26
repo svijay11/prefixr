@@ -35,7 +35,15 @@ PROVIDER_URLS = {
     "anthropic": "https://api.anthropic.com",
     "openai": "https://api.openai.com",
     "deepseek": "https://api.deepseek.com",
+    "gemini": "https://generativelanguage.googleapis.com/v1beta/openai",
 }
+
+
+def chat_completions_url(provider: str) -> str:
+    if provider == "gemini":
+        return f"{PROVIDER_URLS['gemini']}/chat/completions"
+    base = PROVIDER_URLS.get(provider, PROVIDER_URLS["openai"])
+    return f"{base}/v1/chat/completions"
 
 
 class PrefixrProxy:
@@ -46,7 +54,7 @@ class PrefixrProxy:
         db_path: Path | None = None,
     ):
         self.config = config
-        self.active_providers = active_providers or ["anthropic", "openai", "deepseek"]
+        self.active_providers = active_providers or ["anthropic", "openai", "deepseek", "gemini"]
         self.ledger = SessionLedger(db_path)
         self.event_bus = EventBus(self.ledger)
         self.manipulator = ContextManipulator(
@@ -179,8 +187,8 @@ class PrefixrProxy:
         if not api_key:
             raise HTTPException(401, f"No API key configured for {provider}")
 
-        base_url = PROVIDER_URLS.get(provider, PROVIDER_URLS["openai"])
-        url = f"{base_url}/v1/chat/completions"
+        base_url = chat_completions_url(provider)
+        url = base_url
         headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",

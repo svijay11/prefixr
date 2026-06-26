@@ -46,6 +46,11 @@ DEFAULT_PRICING: dict[str, ProviderPricing] = {
       price_uncached_per_mtok=0.27,
       price_cached_per_mtok=0.07,  # ~26% of base
   ),
+  "gemini": ProviderPricing(
+      provider="gemini",
+      price_uncached_per_mtok=0.30,
+      price_cached_per_mtok=0.075,  # ~25% with context caching
+  ),
 }
 
 # Cheap summarizer models (USD per million input tokens)

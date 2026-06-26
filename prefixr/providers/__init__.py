@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from prefixr.providers.gemini import GeminiAdapter
 from prefixr.providers.anthropic import AnthropicAdapter
 from prefixr.providers.base import CacheEventData, ProviderAdapter
 from prefixr.providers.deepseek import DeepSeekAdapter
@@ -11,6 +12,7 @@ __all__ = [
     "AnthropicAdapter",
     "OpenAIAdapter",
     "DeepSeekAdapter",
+    "GeminiAdapter",
     "ProviderAdapter",
     "CacheEventData",
 ]
@@ -21,6 +23,7 @@ def get_adapter(provider: str) -> ProviderAdapter:
         "anthropic": AnthropicAdapter,
         "openai": OpenAIAdapter,
         "deepseek": DeepSeekAdapter,
+        "gemini": GeminiAdapter,
     }
     cls = adapters.get(provider)
     if cls is None:
@@ -29,8 +32,10 @@ def get_adapter(provider: str) -> ProviderAdapter:
 
 
 def detect_adapter(payload: dict[str, Any], active_providers: list[str] | None = None) -> ProviderAdapter:
+    # Order matters: specific detectors before openai fallback
+    order = active_providers or ["anthropic", "gemini", "deepseek", "openai"]
     candidates = []
-    for name in active_providers or ["anthropic", "openai", "deepseek"]:
+    for name in order:
         adapter = get_adapter(name)
         if adapter.detect_provider(payload):
             candidates.append(adapter)

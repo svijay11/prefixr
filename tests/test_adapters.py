@@ -2,6 +2,7 @@
 
 import pytest
 
+from prefixr.providers.gemini import GeminiAdapter
 from prefixr.providers.anthropic import AnthropicAdapter
 from prefixr.providers.deepseek import DeepSeekAdapter
 from prefixr.providers.openai import OpenAIAdapter
@@ -106,3 +107,35 @@ class TestDeepSeekAdapter:
         response = {"usage": {"prompt_tokens": 10000}}
         data = adapter.postprocess(response)
         assert data.tokens_cached > 0
+
+
+class TestGeminiAdapter:
+    @pytest.fixture
+    def adapter(self):
+        return GeminiAdapter()
+
+    def test_detect_provider(self, adapter):
+        assert adapter.detect_provider({"model": "gemini-2.5-flash"}) is True
+        assert adapter.detect_provider({"model": "gpt-4o"}) is False
+
+    def test_postprocess_reads_cached_tokens(self, adapter):
+        response = {
+            "usage": {
+                "prompt_tokens": 10000,
+                "prompt_tokens_details": {"cached_tokens": 6000},
+            }
+        }
+        data = adapter.postprocess(response)
+        assert data.tokens_cached == 6000
+        assert data.is_cache_hit is True
+
+    def test_preprocess_orders_system_first(self, adapter):
+        payload = {
+            "model": "gemini-2.5-flash",
+            "messages": [
+                {"role": "user", "content": "Hi"},
+                {"role": "system", "content": "Be helpful"},
+            ],
+        }
+        result = adapter.preprocess(payload)
+        assert result["messages"][0]["role"] == "system"

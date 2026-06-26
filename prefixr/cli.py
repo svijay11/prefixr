@@ -37,6 +37,9 @@ def init():
     config.deepseek_api_key = click.prompt(
         "DeepSeek API key", default=config.deepseek_api_key, hide_input=True
     )
+    config.gemini_api_key = click.prompt(
+        "Gemini API key (Google AI Studio)", default=config.gemini_api_key, hide_input=True
+    )
     config.port = click.prompt("Proxy port", default=config.port, type=int)
     config.optimizer.horizon_turns = click.prompt(
         "Optimizer horizon (turns)", default=config.optimizer.horizon_turns, type=int
@@ -149,6 +152,7 @@ def doctor():
         ("Anthropic", config.anthropic_api_key),
         ("OpenAI", config.openai_api_key),
         ("DeepSeek", config.deepseek_api_key),
+        ("Gemini", config.gemini_api_key),
     ]:
         if key:
             click.echo(f"✓ {name} API key configured")
