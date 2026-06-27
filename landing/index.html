@@ -9,21 +9,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f6f4ef;
-      --bg-warm: #efe9df;
+      --bg: #f8f6f2;
+      --bg-warm: #f0ebe4;
       --surface: #ffffff;
-      --text: #1a1814;
-      --muted: #6b6560;
-      --border: #e8e2d9;
-      --accent: #2f6b4f;
-      --accent-light: #e8f3ec;
+      --text: #1c1917;
+      --muted: #78716c;
+      --border: #e7e0d8;
+      --accent: #2d6a4f;
+      --accent-light: #e9f5ee;
       --accent-hover: #245a42;
-      --shadow: 0 4px 24px rgba(26, 24, 20, 0.06);
-      --shadow-lg: 0 24px 64px rgba(26, 24, 20, 0.12);
-      --radius: 16px;
-      --radius-lg: 24px;
+      --shadow-sm: 0 2px 8px rgba(28, 25, 23, 0.04);
+      --shadow: 0 8px 32px rgba(28, 25, 23, 0.07);
+      --shadow-lg: 0 24px 64px rgba(28, 25, 23, 0.1);
+      --radius-sm: 12px;
+      --radius: 20px;
+      --radius-lg: 28px;
+      --radius-pill: 100px;
       --serif: 'Instrument Serif', Georgia, serif;
       --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,8 +36,21 @@
       font-family: var(--sans);
       background: var(--bg);
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.55;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Scroll reveal — GPU-friendly */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* Nav */
@@ -41,9 +58,10 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(246, 244, 239, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      background: rgba(248, 246, 242, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(231, 224, 216, 0.6);
     }
     .nav-inner {
       max-width: 1120px;
@@ -52,13 +70,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
     }
     .logo {
       font-family: var(--serif);
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       font-weight: 400;
       color: var(--text);
       text-decoration: none;
+      letter-spacing: -0.02em;
     }
     .nav-links {
       display: flex;
@@ -69,168 +89,225 @@
     .nav-links a {
       color: var(--muted);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       font-weight: 500;
-      transition: color 0.2s;
+      transition: color 0.25s ease;
     }
     .nav-links a:hover { color: var(--text); }
+
     .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
-      padding: 0.65rem 1.25rem;
-      border-radius: 999px;
-      font-size: 0.9rem;
+      padding: 0.7rem 1.35rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.875rem;
       font-weight: 500;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
       cursor: pointer;
       border: none;
       font-family: inherit;
+      white-space: nowrap;
     }
+    .btn:active { transform: scale(0.98); }
     .btn-primary {
       background: var(--accent);
       color: white;
+      box-shadow: var(--shadow-sm);
     }
-    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 4px 16px rgba(45, 106, 79, 0.25);
+    }
     .btn-ghost {
-      background: transparent;
+      background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
     }
-    .btn-ghost:hover { background: var(--surface); }
+    .btn-ghost:hover {
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
 
     /* Hero */
     .hero {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 5rem 1.5rem 3rem;
+      padding: clamp(3rem, 8vw, 5.5rem) 1.5rem 3rem;
       text-align: center;
     }
     .hero h1 {
       font-family: var(--serif);
-      font-size: clamp(2.75rem, 6vw, 4.25rem);
+      font-size: clamp(2.5rem, 6vw, 4rem);
       font-weight: 400;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      max-width: 720px;
+      line-height: 1.06;
+      letter-spacing: -0.025em;
+      max-width: 680px;
       margin: 0 auto 1.25rem;
     }
-    .hero p {
-      font-size: 1.125rem;
+    .hero > p {
+      font-size: clamp(1rem, 2.5vw, 1.125rem);
       color: var(--muted);
-      max-width: 520px;
+      max-width: 500px;
       margin: 0 auto 2rem;
-      line-height: 1.6;
+      line-height: 1.65;
+    }
+    .hero-sub {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      margin-top: 1rem;
+      line-height: 1.5;
     }
     .hero-cta {
       display: flex;
       flex-wrap: wrap;
       gap: 0.75rem;
       justify-content: center;
-      margin-bottom: 1rem;
+      margin-top: 1.25rem;
     }
-    .install-cmd {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.65rem 1.25rem 0.65rem 1.5rem;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.8rem;
-      color: var(--muted);
-      cursor: pointer;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      max-width: 100%;
+
+    /* Terminal install block */
+    .terminal-wrap {
+      max-width: 620px;
+      margin: 0 auto;
+      will-change: transform;
     }
-    .install-cmd.block {
-      border-radius: 12px;
-      width: 100%;
-      justify-content: space-between;
+    .terminal {
+      background: #1a1a1c;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.06) inset;
       text-align: left;
     }
-    .install-cmd.block span:first-child {
-      overflow-x: auto;
-      white-space: nowrap;
-      padding-right: 0.5rem;
-    }
-    .install-options {
-      max-width: 640px;
-      margin: 0 auto 1rem;
+    .terminal-chrome {
       display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.85rem 1.1rem;
+      background: #252528;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .install-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-      font-weight: 600;
-      text-align: left;
-      margin-bottom: -0.35rem;
-      padding-left: 0.25rem;
+    .terminal-chrome .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
     }
-    .install-cmd:hover {
-      border-color: var(--accent);
-      box-shadow: var(--shadow);
-    }
-    .install-cmd .copy-hint {
-      font-family: var(--sans);
-      font-size: 0.75rem;
-      color: var(--accent);
+    .terminal-chrome .dot-r { background: #ff5f57; }
+    .terminal-chrome .dot-y { background: #febc2e; }
+    .terminal-chrome .dot-g { background: #28c840; }
+    .terminal-chrome .title {
+      flex: 1;
+      text-align: center;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.45);
       font-weight: 500;
+      letter-spacing: 0.02em;
+      margin-right: 2.5rem;
     }
-    .hero-sub {
-      font-size: 0.85rem;
-      color: var(--muted);
+    .terminal-body {
+      padding: 1.25rem 1.35rem 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.85;
+      overflow-x: auto;
     }
+    .terminal-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.45rem;
+      padding: 0.15rem 0.5rem;
+      margin: 0 -0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .terminal-line:hover { background: rgba(255,255,255,0.05); }
+    .terminal-line.copied { background: rgba(45, 106, 79, 0.2); }
+    .terminal-prompt { color: #6ee7b7; user-select: none; }
+    .terminal-cmd { color: #e7e5e4; word-break: break-all; }
+    .terminal-comment { color: #78716c; font-style: italic; padding-left: 0.5rem; }
+    .terminal-output { color: #a8a29e; padding-left: 1.25rem; }
+    .terminal-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 14px;
+      background: #6ee7b7;
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 1.2s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* After-install card */
     .install-steps {
-      max-width: 520px;
-      margin: 1.25rem auto 0;
+      max-width: 620px;
+      margin: 1.5rem auto 0;
       text-align: left;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      box-shadow: var(--shadow);
+      padding: 1.35rem 1.5rem;
+      box-shadow: var(--shadow-sm);
     }
     .install-steps h4 {
-      font-size: 0.7rem;
+      font-family: var(--sans);
+      font-size: 0.6875rem;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       color: var(--muted);
       font-weight: 600;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
     }
     .install-steps ol {
       margin: 0;
-      padding-left: 1.25rem;
-      color: var(--muted);
-      font-size: 0.85rem;
-      line-height: 1.8;
+      padding-left: 1.2rem;
+      list-style: decimal;
     }
+    .install-steps li {
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.75;
+      padding-left: 0.25rem;
+    }
+    .install-steps li + li { margin-top: 0.35rem; }
     .install-steps code {
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.78rem;
+      font-family: var(--mono);
+      font-size: 0.8125rem;
       background: var(--bg);
-      padding: 0.15rem 0.4rem;
-      border-radius: 4px;
+      padding: 0.12rem 0.4rem;
+      border-radius: 6px;
       color: var(--text);
+      font-weight: 500;
     }
     .install-note {
-      font-size: 0.78rem;
+      font-family: var(--sans);
+      font-size: 0.8125rem;
+      font-weight: 400;
       color: var(--muted);
-      margin-top: 0.75rem;
-      line-height: 1.5;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      line-height: 1.55;
+    }
+    .install-note code {
+      font-family: var(--mono);
+      font-size: 0.8125rem;
+      background: var(--bg);
+      padding: 0.1rem 0.35rem;
+      border-radius: 5px;
+      color: var(--text);
+      font-weight: 500;
     }
 
     /* Product mockup */
     .mockup-wrap {
       max-width: 960px;
-      margin: 3rem auto 0;
+      margin: 3.5rem auto 0;
       padding: 0 1.5rem;
     }
     .mockup {
@@ -244,18 +321,18 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.875rem 1.25rem;
-      background: #fafaf8;
+      padding: 0.9rem 1.25rem;
+      background: #fafaf9;
       border-bottom: 1px solid var(--border);
     }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot-r { background: #f87171; }
-    .dot-y { background: #fbbf24; }
-    .dot-g { background: #4ade80; }
+    .mockup-bar .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mockup-bar .dot-r { background: #f87171; }
+    .mockup-bar .dot-y { background: #fbbf24; }
+    .mockup-bar .dot-g { background: #4ade80; }
     .mockup-title {
       flex: 1;
       text-align: center;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--muted);
       font-weight: 500;
     }
@@ -265,12 +342,12 @@
       min-height: 380px;
     }
     .mockup-sidebar {
-      background: #fafaf8;
+      background: #fafaf9;
       border-right: 1px solid var(--border);
       padding: 1.25rem;
     }
     .mockup-sidebar h4 {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--muted);
@@ -278,11 +355,10 @@
       font-weight: 600;
     }
     .session-item {
-      padding: 0.65rem 0.75rem;
-      border-radius: 10px;
+      padding: 0.65rem 0.85rem;
+      border-radius: var(--radius-sm);
       font-size: 0.8rem;
       margin-bottom: 0.35rem;
-      cursor: default;
     }
     .session-item.active {
       background: var(--accent-light);
@@ -296,7 +372,7 @@
       margin-top: 0.15rem;
       font-weight: 400;
     }
-    .session-item.active span { color: var(--accent); opacity: 0.7; }
+    .session-item.active span { color: var(--accent); opacity: 0.75; }
     .mockup-main { padding: 1.5rem; }
     .stat-row {
       display: grid;
@@ -305,10 +381,10 @@
       margin-bottom: 1.25rem;
     }
     .stat-card {
-      background: #fafaf8;
+      background: #fafaf9;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 0.875rem;
+      border-radius: var(--radius-sm);
+      padding: 0.9rem;
     }
     .stat-card .label {
       font-size: 0.65rem;
@@ -318,16 +394,17 @@
       font-weight: 600;
     }
     .stat-card .value {
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       font-weight: 600;
       margin-top: 0.25rem;
       font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
     }
     .stat-card .value.green { color: var(--accent); }
     .turn-card {
-      background: #fafaf8;
+      background: #fafaf9;
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       padding: 1rem;
       margin-bottom: 0.65rem;
     }
@@ -340,23 +417,19 @@
     .turn-header span { font-size: 0.75rem; color: var(--muted); }
     .badge {
       font-size: 0.65rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-pill);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
     .badge-preserve { background: var(--accent-light); color: var(--accent); }
     .badge-pad { background: #e8f0fe; color: #3b6fc7; }
-    .turn-reason {
-      font-size: 0.75rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
+    .turn-reason { font-size: 0.75rem; color: var(--muted); line-height: 1.55; }
 
     /* Logos */
     .logos {
-      padding: 4rem 1.5rem;
+      padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
       text-align: center;
     }
     .logos p {
@@ -369,13 +442,13 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 2.5rem;
+      gap: clamp(1.5rem, 4vw, 2.5rem);
       max-width: 800px;
       margin: 0 auto;
-      opacity: 0.45;
+      opacity: 0.4;
     }
     .logo-row span {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 600;
       color: var(--text);
       letter-spacing: -0.02em;
@@ -385,21 +458,25 @@
     .features {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 4rem 1.5rem;
+      padding: clamp(3rem, 6vw, 5rem) 1.5rem;
     }
     .features h2 {
       font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-size: clamp(1.85rem, 4vw, 2.65rem);
       font-weight: 400;
       text-align: center;
       margin-bottom: 0.75rem;
       letter-spacing: -0.02em;
+      line-height: 1.15;
     }
     .features .subtitle {
       text-align: center;
       color: var(--muted);
-      margin-bottom: 3rem;
-      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .tabs {
       display: flex;
@@ -409,89 +486,96 @@
       flex-wrap: wrap;
     }
     .tab {
-      padding: 0.55rem 1.25rem;
-      border-radius: 999px;
+      padding: 0.6rem 1.3rem;
+      border-radius: var(--radius-pill);
       border: 1px solid var(--border);
-      background: transparent;
+      background: var(--surface);
       font-family: inherit;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 500;
       color: var(--muted);
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
     }
-    .tab:hover { background: var(--surface); color: var(--text); }
+    .tab:hover { color: var(--text); box-shadow: var(--shadow); }
     .tab.active {
       background: var(--text);
       color: white;
       border-color: var(--text);
+      box-shadow: var(--shadow);
     }
     .feature-panel {
       display: none;
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
+      gap: clamp(1.5rem, 4vw, 3rem);
       align-items: center;
     }
     .feature-panel.active { display: grid; }
     .feature-text h3 {
       font-family: var(--serif);
-      font-size: 1.75rem;
+      font-size: clamp(1.4rem, 3vw, 1.75rem);
       font-weight: 400;
       margin-bottom: 0.75rem;
       letter-spacing: -0.01em;
+      line-height: 1.2;
     }
     .feature-text p {
       color: var(--muted);
       line-height: 1.7;
-      font-size: 0.95rem;
+      font-size: 0.9375rem;
     }
     .feature-visual {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1.5rem;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-sm);
     }
     .code-block {
-      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-family: var(--mono);
       font-size: 0.75rem;
-      line-height: 1.7;
+      line-height: 1.75;
       color: var(--text);
     }
     .code-block .comment { color: var(--muted); }
     .code-block .key { color: var(--accent); }
     .code-block .val { color: #b45309; }
 
-    /* How it works */
+    /* How */
     .how {
       background: var(--bg-warm);
-      padding: 5rem 1.5rem;
+      padding: clamp(3.5rem, 8vw, 5.5rem) 1.5rem;
     }
-    .how-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-    }
+    .how-inner { max-width: 1120px; margin: 0 auto; }
     .how h2 {
       font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-size: clamp(1.85rem, 4vw, 2.65rem);
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
       font-weight: 400;
+      letter-spacing: -0.02em;
     }
     .steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+      gap: 1.25rem;
     }
     .step {
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 2rem;
+      padding: clamp(1.5rem, 3vw, 2rem);
       border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .step:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
     }
     .step-num {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       background: var(--accent-light);
       color: var(--accent);
       border-radius: 50%;
@@ -503,43 +587,53 @@
       margin-bottom: 1rem;
     }
     .step h3 {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
     }
     .step p {
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.65;
+    }
+    .step code {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      background: var(--bg);
+      padding: 0.1rem 0.35rem;
+      border-radius: 5px;
     }
 
     /* CTA */
     .cta {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 5rem 1.5rem;
+      padding: clamp(3.5rem, 8vw, 5.5rem) 1.5rem;
       text-align: center;
     }
     .cta h2 {
       font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-size: clamp(1.85rem, 4vw, 2.65rem);
       font-weight: 400;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
     }
-    .cta p {
+    .cta > p {
       color: var(--muted);
       margin-bottom: 2rem;
-      font-size: 1.05rem;
+      font-size: 1rem;
     }
     .savings-counter {
-      font-size: 3rem;
+      font-size: clamp(2.25rem, 5vw, 3rem);
       font-weight: 600;
       color: var(--accent);
       font-variant-numeric: tabular-nums;
       margin-bottom: 0.25rem;
+      letter-spacing: -0.03em;
     }
     .savings-label {
-      font-size: 0.85rem;
+      font-size: 0.8125rem;
       color: var(--muted);
       margin-bottom: 2rem;
     }
@@ -547,7 +641,7 @@
     /* Footer */
     footer {
       border-top: 1px solid var(--border);
-      padding: 2.5rem 1.5rem;
+      padding: 2rem 1.5rem;
       max-width: 1120px;
       margin: 0 auto;
       display: flex;
@@ -556,9 +650,14 @@
       flex-wrap: wrap;
       gap: 1rem;
     }
-    footer .logo { font-size: 1.25rem; }
+    footer .logo { font-size: 1.2rem; }
     footer p { font-size: 0.8rem; color: var(--muted); }
-    footer a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
     footer a:hover { color: var(--text); }
 
     @media (max-width: 768px) {
@@ -568,6 +667,12 @@
       .stat-row { grid-template-columns: repeat(2, 1fr); }
       .feature-panel.active { grid-template-columns: 1fr; }
       .steps { grid-template-columns: 1fr; }
+      .terminal-body { font-size: 0.7rem; padding: 1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .terminal-wrap { transform: none !important; }
+      .terminal-cursor { animation: none; }
     }
   </style>
 </head>
@@ -586,40 +691,62 @@
   </nav>
 
   <section class="hero" id="install">
-    <h1>The cache scheduler for back-to-back agent turns</h1>
-    <p>
+    <h1 class="reveal">The cache scheduler for back-to-back agent turns</h1>
+    <p class="reveal">
       Prefixr intercepts your LLM API calls locally and decides every turn
       whether to preserve your prefix cache or summarize now — saving you money
       over the next five.
     </p>
-    <div class="install-options">
-      <div class="install-label">One-liner (curl)</div>
-      <div class="install-cmd block" title="Click to copy">
-        <span>curl -fsSL https://raw.githubusercontent.com/svijay11/prefixr/main/install.sh | bash</span>
-        <span class="copy-hint">Copy</span>
-      </div>
-      <div class="install-label">Or with pip</div>
-      <div class="install-cmd block" title="Click to copy">
-        <span>python3 -m pip install --user "git+https://github.com/svijay11/prefixr.git"</span>
-        <span class="copy-hint">Copy</span>
-      </div>
-    </div>
-    <div class="hero-cta">
-      <a href="#how" class="btn btn-ghost" title="Dashboard runs locally after you install Prefixr">How to open dashboard →</a>
-    </div>
-    <p class="hero-sub">Requires Python 3.9+ and git · Local-first · Your API keys never leave your machine</p>
 
-    <div class="install-steps">
+    <div class="terminal-wrap reveal" id="terminal-parallax">
+      <div class="terminal">
+        <div class="terminal-chrome">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="title">install — prefixr</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line" data-copy="curl -fsSL https://raw.githubusercontent.com/svijay11/prefixr/main/install.sh | bash">
+            <span class="terminal-prompt">$</span>
+            <span class="terminal-cmd">curl -fsSL https://raw.githubusercontent.com/svijay11/prefixr/main/install.sh | bash</span>
+          </div>
+          <div class="terminal-line terminal-comment"># or install with pip</div>
+          <div class="terminal-line" data-copy='python3 -m pip install --user "git+https://github.com/svijay11/prefixr.git"'>
+            <span class="terminal-prompt">$</span>
+            <span class="terminal-cmd">python3 -m pip install --user "git+https://github.com/svijay11/prefixr.git"</span>
+          </div>
+          <div class="terminal-line terminal-output">→ Prefixr installed.</div>
+          <div class="terminal-line" data-copy="prefixr init">
+            <span class="terminal-prompt">$</span>
+            <span class="terminal-cmd">prefixr init</span>
+          </div>
+          <div class="terminal-line" data-copy="prefixr run">
+            <span class="terminal-prompt">$</span>
+            <span class="terminal-cmd">prefixr run</span>
+            <span class="terminal-cursor"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="hero-sub reveal">Click any command to copy · Requires Python 3.9+ and git</p>
+
+    <div class="hero-cta reveal">
+      <a href="#how" class="btn btn-ghost">How to open dashboard →</a>
+    </div>
+
+    <div class="install-steps reveal">
       <h4>After install</h4>
       <ol>
-        <li><code>prefixr init</code> — add your OpenAI / Anthropic API keys</li>
+        <li><code>prefixr init</code> — add your API keys (skip providers you don't use)</li>
         <li><code>prefixr run</code> — start the proxy + dashboard</li>
         <li>Open <code>http://localhost:4242/dashboard</code> in your browser</li>
       </ol>
-      <p class="install-note">Both commands install from GitHub. <code>pip install prefixr</code> (PyPI) is not live yet.</p>
+      <p class="install-note">Installs from GitHub today. PyPI (<code>pip install prefixr</code>) coming soon.</p>
     </div>
 
-    <div class="mockup-wrap">
+    <div class="mockup-wrap reveal">
       <div class="mockup">
         <div class="mockup-bar">
           <div class="dot dot-r"></div>
@@ -640,7 +767,7 @@
             </div>
             <div class="session-item">
               eval-harness
-              <span>deepseek · deepseek-chat</span>
+              <span>gemini · gemini-2.5-flash</span>
             </div>
           </div>
           <div class="mockup-main">
@@ -686,19 +813,19 @@
     </div>
   </section>
 
-  <section class="logos">
+  <section class="logos reveal">
     <p>Works with every tool you already use</p>
     <div class="logo-row">
       <span>Cursor</span>
       <span>OpenAI</span>
       <span>Anthropic</span>
+      <span>Gemini</span>
       <span>LangChain</span>
       <span>curl</span>
-      <span>DeepSeek</span>
     </div>
   </section>
 
-  <section class="features" id="features">
+  <section class="features reveal" id="features">
     <h2>Prefixr helps you before, during, and after every API call</h2>
     <p class="subtitle">Cache optimization that runs on your machine, not in the cloud.</p>
 
@@ -713,9 +840,9 @@
         <h3>Start every turn with a cost decision</h3>
         <p>
           Prefixr evaluates cost_preserve(N) vs cost_summarize(N) using real
-          Anthropic and OpenAI cache pricing. If preserving your prefix cache
-          is cheaper over the next five turns, it leaves context alone. If not,
-          it compresses the volatile tail.
+          provider cache pricing. If preserving your prefix cache is cheaper
+          over the next five turns, it leaves context alone. If not, it compresses
+          the volatile tail.
         </p>
       </div>
       <div class="feature-visual">
@@ -724,8 +851,7 @@
           <span class="key">action</span>: <span class="val">"preserve"</span><br>
           <span class="key">hit_rate</span>: <span class="val">0.873</span><br>
           <span class="key">horizon_turns</span>: <span class="val">5</span><br>
-          <span class="key">expected_savings</span>: <span class="val">$0.00189</span><br>
-          <span class="key">reasoning</span>: <span class="val">"Preserve cache..."</span>
+          <span class="key">expected_savings</span>: <span class="val">$0.00189</span>
         </div>
       </div>
     </div>
@@ -754,9 +880,9 @@
       <div class="feature-text">
         <h3>Track every cache hit in real time</h3>
         <p>
-          After each response, Prefixr reads cache_read_input_tokens from
-          Anthropic or cached_tokens from OpenAI and writes ground-truth data
-          to your local SQLite ledger. The dashboard updates live via WebSocket.
+          After each response, Prefixr reads cache token data from your provider
+          and writes ground-truth stats to your local SQLite ledger. The
+          dashboard updates live via WebSocket.
         </p>
       </div>
       <div class="feature-visual">
@@ -771,21 +897,21 @@
     </div>
   </section>
 
-  <section class="how" id="how">
+  <section class="how reveal" id="how">
     <div class="how-inner">
       <h2>Three steps. Zero code changes.</h2>
       <div class="steps">
-        <div class="step">
+        <div class="step reveal">
           <div class="step-num">1</div>
           <h3>Install from GitHub</h3>
-          <p>Run the curl one-liner or <code style="font-family:monospace;font-size:0.85em;background:#fafaf8;padding:0.1rem 0.35rem;border-radius:4px;">python3 -m pip install --user "git+https://github.com/svijay11/prefixr.git"</code>, then <code style="font-family:monospace;font-size:0.85em;background:#fafaf8;padding:0.1rem 0.35rem;border-radius:4px;">prefixr init</code> to add API keys. Everything stays in <code style="font-family:monospace;font-size:0.85em;background:#fafaf8;padding:0.1rem 0.35rem;border-radius:4px;">~/.prefixr</code> on your machine.</p>
+          <p>Run the curl one-liner in the terminal above, or use pip. Then <code>prefixr init</code> to add API keys.</p>
         </div>
-        <div class="step">
+        <div class="step reveal">
           <div class="step-num">2</div>
           <h3>Point your tool at localhost</h3>
-          <p>Set base_url to http://localhost:4242/v1. Works with Cursor, curl, Python SDKs — anything OpenAI-compatible.</p>
+          <p>Set base URL to <code>http://localhost:4242/v1</code>. Works with Cursor, curl, Python — anything OpenAI-compatible.</p>
         </div>
-        <div class="step">
+        <div class="step reveal">
           <div class="step-num">3</div>
           <h3>Watch savings accumulate</h3>
           <p>Open the dashboard to see cache hit rates, optimizer decisions, and cost saved per session in real time.</p>
@@ -794,18 +920,28 @@
     </div>
   </section>
 
-  <section class="cta">
+  <section class="cta reveal">
     <div class="savings-counter" id="saved">$0.0000</div>
     <div class="savings-label">average savings per agent session</div>
     <h2>Unlimited cache optimization, free</h2>
     <p>Runs entirely on your machine. Your keys, your data, your savings.</p>
-    <div class="install-options" style="margin:0 auto 1rem;">
-      <div class="install-cmd block" title="Click to copy">
-        <span>curl -fsSL https://raw.githubusercontent.com/svijay11/prefixr/main/install.sh | bash</span>
-        <span class="copy-hint">Copy</span>
+    <div class="terminal-wrap" style="max-width:580px;margin:0 auto;">
+      <div class="terminal">
+        <div class="terminal-chrome">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="title">install — prefixr</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line" data-copy="curl -fsSL https://raw.githubusercontent.com/svijay11/prefixr/main/install.sh | bash">
+            <span class="terminal-prompt">$</span>
+            <span class="terminal-cmd">curl -fsSL https://raw.githubusercontent.com/svijay11/prefixr/main/install.sh | bash</span>
+          </div>
+        </div>
       </div>
     </div>
-    <p class="hero-sub" style="margin-top:0;">Then run <code style="font-family:monospace;background:#fff;padding:0.1rem 0.35rem;border-radius:4px;border:1px solid var(--border);">prefixr init</code> and <code style="font-family:monospace;background:#fff;padding:0.1rem 0.35rem;border-radius:4px;border:1px solid var(--border);">prefixr run</code></p>
+    <p class="hero-sub" style="margin-top:1.25rem;">Then <code style="font-family:var(--mono);font-size:0.8125rem;background:var(--surface);padding:0.15rem 0.4rem;border-radius:6px;border:1px solid var(--border);">prefixr init</code> and <code style="font-family:var(--mono);font-size:0.8125rem;background:var(--surface);padding:0.15rem 0.4rem;border-radius:6px;border:1px solid var(--border);">prefixr run</code></p>
   </section>
 
   <footer>
@@ -815,6 +951,37 @@
   </footer>
 
   <script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // Subtle terminal parallax on scroll (lightweight)
+    const terminalParallax = document.getElementById('terminal-parallax');
+    let ticking = false;
+    function onScroll() {
+      if (!terminalParallax || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const rect = terminalParallax.getBoundingClientRect();
+          const center = rect.top + rect.height / 2;
+          const viewCenter = window.innerHeight / 2;
+          const offset = (center - viewCenter) * 0.035;
+          terminalParallax.style.transform = `translateY(${offset}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+
     // Tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
@@ -825,28 +992,27 @@
       });
     });
 
-    // Copy install command
-    document.querySelectorAll('.install-cmd').forEach(el => {
-      el.addEventListener('click', () => {
-        const cmd = el.querySelector('span').textContent;
+    // Copy terminal commands on click
+    document.querySelectorAll('.terminal-line[data-copy]').forEach(line => {
+      line.addEventListener('click', () => {
+        const cmd = line.dataset.copy;
         navigator.clipboard.writeText(cmd);
-        const hint = el.querySelector('.copy-hint');
-        hint.textContent = 'Copied!';
-        setTimeout(() => { hint.textContent = 'Copy'; }, 2000);
+        line.classList.add('copied');
+        setTimeout(() => line.classList.remove('copied'), 1200);
       });
     });
 
-    // Animate savings counter
+    // Savings counter
     const savedEl = document.getElementById('saved');
     const target = 0.0847;
     let current = 0;
-    const step = () => {
+    const countStep = () => {
       current += (target - current) * 0.04;
       if (Math.abs(target - current) < 0.0001) current = target;
       savedEl.textContent = '$' + current.toFixed(4);
-      if (current < target) requestAnimationFrame(step);
+      if (current < target) requestAnimationFrame(countStep);
     };
-    step();
+    countStep();
   </script>
 </body>
 </html>
