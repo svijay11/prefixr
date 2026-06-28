@@ -24,7 +24,7 @@
       --radius-sm: 12px;
       --radius: 20px;
       --radius-lg: 28px;
-      --radius-pill: 100px;
+      --radius-btn: 10px;
       --serif: 'Instrument Serif', Georgia, serif;
       --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
@@ -83,25 +83,37 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: 0.5rem;
       list-style: none;
     }
     .nav-links a {
+      display: inline-flex;
+      align-items: center;
       color: var(--muted);
       text-decoration: none;
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       font-weight: 500;
-      transition: color 0.25s ease;
+      padding: 0.55rem 0.95rem;
+      border-radius: var(--radius-btn);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      transition: color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     }
-    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover {
+      color: var(--text);
+      background: #fff;
+      border-color: #d6d0c8;
+      box-shadow: var(--shadow);
+    }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      padding: 0.7rem 1.35rem;
-      border-radius: var(--radius-pill);
+      padding: 0.65rem 1.15rem;
+      border-radius: var(--radius-btn);
       font-size: 0.875rem;
       font-weight: 500;
       text-decoration: none;
@@ -417,8 +429,8 @@
     .turn-header span { font-size: 0.75rem; color: var(--muted); }
     .badge {
       font-size: 0.65rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: var(--radius-pill);
+      padding: 0.25rem 0.55rem;
+      border-radius: var(--radius-btn);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.03em;
@@ -484,10 +496,18 @@
       gap: 0.5rem;
       margin-bottom: 2.5rem;
       flex-wrap: wrap;
+      padding: 0.35rem;
+      background: var(--bg-warm);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-btn);
+      width: fit-content;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
     }
     .tab {
-      padding: 0.6rem 1.3rem;
-      border-radius: var(--radius-pill);
+      padding: 0.6rem 1.15rem;
+      border-radius: calc(var(--radius-btn) - 2px);
       border: 1px solid var(--border);
       background: var(--surface);
       font-family: inherit;
@@ -652,13 +672,25 @@
     }
     footer .logo { font-size: 1.2rem; }
     footer p { font-size: 0.8rem; color: var(--muted); }
-    footer a {
+    footer a.footer-link {
+      display: inline-flex;
+      align-items: center;
       color: var(--muted);
       text-decoration: none;
-      font-size: 0.85rem;
-      transition: color 0.2s;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      padding: 0.5rem 0.9rem;
+      border-radius: var(--radius-btn);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      transition: color 0.2s, background 0.2s, box-shadow 0.2s;
     }
-    footer a:hover { color: var(--text); }
+    footer a.footer-link:hover {
+      color: var(--text);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
 
     @media (max-width: 768px) {
       .nav-links { display: none; }
@@ -947,7 +979,7 @@
   <footer>
     <a href="#" class="logo">prefixr</a>
     <p>© Prefixr 2026 · Made for builders who run agents all day</p>
-    <a href="https://github.com/svijay11/prefixr">GitHub</a>
+    <a href="https://github.com/svijay11/prefixr" class="footer-link">GitHub</a>
   </footer>
 
   <script>
