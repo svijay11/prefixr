@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import CardNav from './CardNav';
+import prefixrLogo from './assets/prefixr-logo.png';
 import ProductDemo from './ProductDemo';
 import LiveDashboard from './LiveDashboard';
 import IntroCopy from './IntroCopy';
@@ -46,11 +47,11 @@ function mount(id, node) {
 
 mount('card-nav-root', (
   <CardNav
-    logoText="prefixr"
+    logo={prefixrLogo}
     logoAlt="prefixr"
     logoHref="#"
     items={navItems}
-    baseColor="rgba(250, 248, 245, 0.92)"
+    baseColor="#ffffff"
     menuColor="#141c2b"
     buttonBgColor="#141c2b"
     buttonTextColor="#fff"

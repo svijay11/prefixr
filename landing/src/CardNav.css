@@ -11,16 +11,15 @@
 
 .card-nav {
   display: block;
-  height: 60px;
+  height: 58px;
   padding: 0;
-  background-color: white;
+  background-color: #ffffff;
   border: 1px solid rgba(20, 28, 43, 0.08);
   border-radius: 0.75rem;
   box-shadow: 0 8px 32px rgba(20, 28, 43, 0.1);
   position: relative;
   overflow: hidden;
   will-change: height;
-  backdrop-filter: blur(12px);
 }
 
 .card-nav-top {
@@ -28,7 +27,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 58px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -79,7 +78,9 @@
 }
 
 .logo {
-  height: 28px;
+  display: block;
+  height: 46px;
+  width: auto;
 }
 
 .logo-text {
@@ -115,7 +116,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 60px;
+  top: 58px;
   bottom: 0;
   padding: 0.5rem;
   display: flex;
