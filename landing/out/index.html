@@ -48,29 +48,14 @@
     html { scroll-behavior: smooth; }
     body {
       font-family: var(--sans);
-      background: var(--section-white);
+      background: var(--section-warm);
       color: var(--text);
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* Nav — fixed over sky, Aside layout */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1.1rem clamp(1.75rem, 5vw, 3.5rem);
-      background: transparent;
-      transition: background 0.25s ease, border-color 0.25s ease;
-    }
-    nav.is-sticky {
-      background: rgba(250, 248, 245, 0.82);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
+    /* CardNav is mounted via React — see src/CardNav.css */
     .hero-sky {
       position: relative;
       min-height: 100vh;
@@ -94,55 +79,7 @@
       background: linear-gradient(180deg, transparent 50%, rgba(250,248,245,0.92) 92%, var(--section-warm) 100%);
     }
 
-    /* Nav — transparent over sky, Aside layout */
-    .nav-inner {
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 1rem;
-      background: none;
-      backdrop-filter: none;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-    }
-    nav .logo {
-      justify-self: start;
-      font-family: var(--sans);
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text);
-      text-decoration: none;
-      letter-spacing: -0.03em;
-    }
-    .nav-links {
-      justify-self: center;
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      list-style: none;
-    }
-    .nav-links a {
-      color: rgba(26, 35, 50, 0.88);
-      text-decoration: none;
-      font-family: var(--sans);
-      font-size: 1rem;
-      font-weight: 500;
-      letter-spacing: -0.015em;
-      text-shadow: 0 1px 14px rgba(255, 255, 255, 0.65);
-      transition: color 0.2s ease, text-shadow 0.2s ease;
-    }
-    .nav-links a:hover { color: var(--link-accent); }
-    nav.is-sticky .nav-links a {
-      color: #36475a;
-      text-shadow: none;
-    }
-
-    .nav-cta { justify-self: end; }
-
+    /* Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -294,23 +231,25 @@
     .reveal-delay-3 { transition-delay: 0.45s; }
     .reveal-delay-4 { transition-delay: 0.6s; }
 
-    /* Aside-style section blocks */
+    /* Section blocks — distinct but cohesive */
     .section-block {
-      padding: clamp(4rem, 9vw, 6.5rem) clamp(1.5rem, 5vw, 3.5rem);
+      padding: clamp(4rem, 9vw, 6rem) clamp(1.5rem, 5vw, 3.5rem);
       border-top: 1px solid var(--section-border);
     }
-    .section-block:first-of-type { border-top: none; }
+    .section-block:first-of-type {
+      border-top: none;
+    }
     .section--white {
       background-color: var(--section-warm);
       background-image:
-        radial-gradient(ellipse 90% 60% at 10% -10%, rgba(37, 99, 235, 0.07), transparent 55%),
-        radial-gradient(ellipse 70% 50% at 95% 30%, rgba(217, 119, 6, 0.05), transparent 50%);
+        radial-gradient(ellipse 90% 60% at 10% -10%, rgba(37, 99, 235, 0.06), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 95% 30%, rgba(217, 119, 6, 0.04), transparent 50%);
     }
     .section--gray {
       background-color: var(--section-cool);
       background-image:
-        radial-gradient(ellipse 80% 55% at 85% 0%, rgba(99, 102, 241, 0.09), transparent 55%),
-        radial-gradient(ellipse 60% 45% at 5% 80%, rgba(13, 148, 136, 0.07), transparent 50%);
+        radial-gradient(ellipse 80% 55% at 85% 0%, rgba(99, 102, 241, 0.07), transparent 55%),
+        radial-gradient(ellipse 60% 45% at 5% 80%, rgba(13, 148, 136, 0.05), transparent 50%);
     }
     .section-inner {
       max-width: 1120px;
@@ -326,6 +265,10 @@
       text-decoration: none;
       margin-bottom: 1.75rem;
       transition: opacity 0.2s;
+    }
+    .section-eyebrow--center {
+      display: flex;
+      justify-content: center;
     }
     .section-eyebrow:hover { opacity: 0.75; }
     .section-heading {
@@ -353,30 +296,7 @@
       line-height: 1.6;
     }
     .section-intro {
-      display: grid;
-      grid-template-columns: minmax(120px, 200px) 1fr;
-      gap: clamp(2rem, 6vw, 5rem);
-      align-items: start;
-    }
-    .section-intro-copy {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .section-intro-copy p {
-      font-size: clamp(1rem, 1.8vw, 1.125rem);
-      line-height: 1.65;
-      color: var(--muted);
-    }
-    .section-intro-copy p strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-    .section-divider {
-      border: none;
-      border-top: 1px dashed rgba(0, 0, 0, 0.1);
-      margin: clamp(3rem, 6vw, 4.5rem) auto 0;
-      max-width: 1120px;
+      text-align: center;
     }
 
     .hero-sub {
@@ -903,7 +823,6 @@
     footer {
       border-top: 1px solid var(--section-border);
       background: var(--section-cool);
-      background-image: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(99, 102, 241, 0.06), transparent);
       padding: 2rem clamp(1.5rem, 5vw, 3.5rem);
       max-width: 1120px;
       margin: 0 auto;
@@ -933,12 +852,8 @@
     }
 
     @media (max-width: 768px) {
-      .nav-inner { grid-template-columns: 1fr auto; }
-      .nav-links { display: none; }
-      .nav-cta { justify-self: end; }
       .hero-center h1 { font-size: 2rem; }
-      .section-intro { grid-template-columns: 1fr; gap: 1.25rem; }
-      .section-intro .section-eyebrow { margin-bottom: 0; }
+      .section-intro { text-align: center; }
       .mockup-body { grid-template-columns: 1fr; }
       .mockup-sidebar { display: none; }
       .stat-row { grid-template-columns: repeat(2, 1fr); }
@@ -957,25 +872,15 @@
       .terminal-cursor { animation: none; }
     }
   </style>
+  <script type="module" crossorigin src="/assets/index-BMAa_9TK.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-ubUVqcCV.css">
 </head>
 <body>
 
   <header class="hero-sky">
     <div class="sky-bg" aria-hidden="true"></div>
 
-    <nav id="nav">
-      <div class="nav-inner">
-        <a href="#" class="logo">prefixr</a>
-        <ul class="nav-links">
-          <li><a href="#features">Features</a></li>
-          <li><a href="#how">How it works</a></li>
-          <li><a href="https://github.com/svijay11/prefixr">GitHub</a></li>
-        </ul>
-        <div class="nav-cta">
-          <a href="#install" class="btn btn-primary">Install</a>
-        </div>
-      </div>
-    </nav>
+    <div id="card-nav-root"></div>
 
     <div class="hero-center">
       <a href="https://github.com/svijay11/prefixr" class="hero-badge reveal">Open source on GitHub ›</a>
@@ -990,6 +895,17 @@
       </a>
     </div>
   </header>
+
+  <section class="section-block section--gray" id="demo">
+    <div class="section-inner">
+      <div class="reveal" style="text-align:center;">
+        <a href="#install" class="section-eyebrow">See it in action ›</a>
+        <h2 class="section-heading section-heading-center">From your IDE to optimized cache hits.</h2>
+        <p class="section-sub">Type a request in Cursor. Prefixr intercepts locally, runs the optimizer, and forwards.</p>
+      </div>
+      <div id="product-demo-root" class="reveal reveal-scale reveal-delay-1"></div>
+    </div>
+  </section>
 
   <section class="section-block section--white" id="install">
     <div class="section-inner hero">
@@ -1029,7 +945,7 @@
       <p class="hero-sub reveal reveal-delay-2">Click any command to copy · Requires Python 3.9+ and git</p>
 
       <div class="hero-cta reveal reveal-delay-2">
-        <a href="#how" class="btn btn-ghost">How to open dashboard →</a>
+        <a href="#dashboard" class="btn btn-ghost">How to open dashboard →</a>
       </div>
 
       <div class="install-steps reveal reveal-delay-3">
@@ -1044,93 +960,22 @@
     </div>
   </section>
 
-  <section class="section-block section--gray">
-    <div class="section-inner section-intro">
-      <a href="#features" class="section-eyebrow reveal reveal-left">Cache scheduling ›</a>
-      <div class="section-intro-copy">
-        <p class="reveal reveal-right reveal-delay-1">
-          <strong>Prefix caching is only half the problem.</strong>
-          Most agents grow context turn over turn, constantly busting the prefix you just paid to warm.
-        </p>
-        <p class="reveal reveal-right reveal-delay-2">
-          <strong>Prefixr schedules every turn.</strong>
-          It runs cost math locally and chooses preserve, pad, or summarize before your request leaves the machine.
-        </p>
+  <section class="section-block section--gray section-intro" id="philosophy">
+    <div class="section-inner">
+      <div class="section-eyebrow--center reveal">
+        <a href="#features" class="section-eyebrow">Cache scheduling ›</a>
       </div>
+      <div id="intro-copy-root"></div>
     </div>
   </section>
 
-  <section class="section-block section--white">
+  <section class="section-block section--white" id="dashboard">
     <div class="section-inner">
       <div class="reveal" style="text-align:center;">
-        <a href="#how" class="section-eyebrow">Live dashboard ›</a>
+        <a href="#install" class="section-eyebrow">Live dashboard ›</a>
         <h2 class="section-heading section-heading-center">See every cache hit in real time.</h2>
       </div>
-      <div class="mockup-wrap reveal reveal-scale reveal-delay-1">
-      <div class="mockup">
-        <div class="mockup-bar">
-          <div class="dot dot-r"></div>
-          <div class="dot dot-y"></div>
-          <div class="dot dot-g"></div>
-          <div class="mockup-title">Prefixr Dashboard — localhost:4242</div>
-        </div>
-        <div class="mockup-body">
-          <div class="mockup-sidebar">
-            <h4>Sessions</h4>
-            <div class="session-item active">
-              agent-run #4a2f
-              <span>anthropic · claude-sonnet</span>
-            </div>
-            <div class="session-item">
-              cursor-session
-              <span>openai · gpt-4o</span>
-            </div>
-            <div class="session-item">
-              eval-harness
-              <span>gemini · gemini-2.5-flash</span>
-            </div>
-          </div>
-          <div class="mockup-main">
-            <div class="stat-row">
-              <div class="stat-card">
-                <div class="label">Hit rate</div>
-                <div class="value">87.3%</div>
-              </div>
-              <div class="stat-card">
-                <div class="label">Tokens cached</div>
-                <div class="value">142k</div>
-              </div>
-              <div class="stat-card">
-                <div class="label">Turns</div>
-                <div class="value">24</div>
-              </div>
-              <div class="stat-card">
-                <div class="label">Saved</div>
-                <div class="value green">$0.0847</div>
-              </div>
-            </div>
-            <div class="turn-card">
-              <div class="turn-header">
-                <span>Turn 24 · just now</span>
-                <span class="badge badge-preserve">preserve</span>
-              </div>
-              <div class="turn-reason">
-                Preserve: 87.3% hit rate beats all strategies; projected $0.002341 over 5 turns
-              </div>
-            </div>
-            <div class="turn-card">
-              <div class="turn-header">
-                <span>Turn 23 · 2m ago</span>
-                <span class="badge badge-pad">pad</span>
-              </div>
-              <div class="turn-reason">
-                Pad injection: add 124 tokens to reach 2048-token checkpoint, saves $0.001892 over 5 turns
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+      <div id="live-dashboard-root" class="reveal reveal-scale reveal-delay-1"></div>
     </div>
   </section>
 
@@ -1287,14 +1132,6 @@
   </footer>
 
   <script>
-    // Sticky nav after leaving hero
-    const nav = document.getElementById('nav');
-    const heroSky = document.querySelector('.hero-sky');
-    const stickyObserver = new IntersectionObserver(([e]) => {
-      nav.classList.toggle('is-sticky', !e.isIntersecting);
-    }, { threshold: 0, rootMargin: '-1px 0px 0px 0px' });
-    if (heroSky) stickyObserver.observe(heroSky);
-
     // Scroll reveal
     const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
     const revealObserver = new IntersectionObserver((entries) => {

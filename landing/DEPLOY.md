@@ -12,6 +12,8 @@ Only the **marketing site** should be public. The dashboard and proxy stay local
 | **Output Directory** | `out` |
 | **Install Command** | `npm install` (or leave default) |
 
+The landing site uses **Vite + React** for the CardNav menu bar. Run `npm run dev` inside `landing/` (or `npm run dev:landing` from the repo root) to preview locally.
+
 ## What visitors see
 
 - `https://your-domain.vercel.app` → marketing page only

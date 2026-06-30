@@ -13,5 +13,5 @@ build/
 venv/
 node_modules/
 dashboard/.next/
-dashboard/out/
+landing/out/
 .DS_Store
