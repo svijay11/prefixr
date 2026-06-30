@@ -1,18 +1,18 @@
 .product-demo {
   position: relative;
-  max-width: 920px;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
 .product-demo-frame {
   background: #0d1117;
-  border-radius: 14px;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
     0 32px 80px rgba(20, 28, 43, 0.35),
     0 0 0 1px rgba(255, 255, 255, 0.04) inset;
   overflow: hidden;
-  min-height: 380px;
+  min-height: 540px;
 }
 
 .product-demo-chrome {
@@ -45,7 +45,7 @@
 
 .product-demo-scene {
   position: relative;
-  min-height: 340px;
+  min-height: 480px;
 }
 
 .product-demo-panel {
@@ -53,7 +53,7 @@
   inset: 0;
   opacity: 0;
   pointer-events: none;
-  padding: 1rem 1.25rem 1.25rem;
+  padding: 1.25rem 1.5rem 1.5rem;
 }
 
 .product-demo-panel.active {
@@ -63,10 +63,10 @@
 /* IDE scene */
 .ide-layout {
   display: grid;
-  grid-template-columns: 140px 1fr;
+  grid-template-columns: 168px 1fr;
   gap: 0;
   height: 100%;
-  min-height: 320px;
+  min-height: 460px;
 }
 
 .ide-sidebar {
@@ -99,14 +99,14 @@
 .ide-main {
   display: flex;
   flex-direction: column;
-  min-height: 320px;
+  min-height: 460px;
 }
 
 .ide-editor {
   flex: 1;
-  padding: 0.75rem 1rem;
+  padding: 1rem 1.25rem;
   font-family: 'SF Mono', 'Fira Code', monospace;
-  font-size: 0.7rem;
+  font-size: 0.82rem;
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -151,7 +151,7 @@
 }
 
 .ide-agent-input {
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.88);
   line-height: 1.5;
   min-height: 2.4em;
@@ -177,9 +177,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 320px;
-  gap: 1.5rem;
-  padding: 2rem;
+  min-height: 460px;
+  gap: 2rem;
+  padding: 2.5rem;
 }
 
 .intercept-flow {
@@ -191,9 +191,9 @@
 }
 
 .intercept-node {
-  padding: 0.85rem 1.1rem;
+  padding: 1rem 1.35rem;
   border-radius: 10px;
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   font-family: 'SF Mono', 'Fira Code', monospace;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
@@ -209,11 +209,11 @@
 
 .intercept-arrow {
   color: rgba(255, 255, 255, 0.35);
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .intercept-caption {
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.45);
   text-align: center;
 }
@@ -222,8 +222,8 @@
 .prefixr-body {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  min-height: 320px;
+  gap: 1.25rem;
+  min-height: 460px;
   padding: 0.25rem;
 }
 
@@ -232,9 +232,9 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.3);
-  padding: 1rem;
+  padding: 1.25rem;
   font-family: 'SF Mono', 'Fira Code', monospace;
-  font-size: 0.68rem;
+  font-size: 0.8rem;
   line-height: 1.85;
 }
 
@@ -287,7 +287,7 @@
 }
 
 .prefixr-stat-value {
-  font-size: 1.1rem;
+  font-size: 1.35rem;
   font-weight: 600;
   color: #fff;
   margin-top: 0.15rem;
@@ -322,5 +322,6 @@
   .ide-layout { grid-template-columns: 1fr; }
   .ide-sidebar { display: none; }
   .prefixr-body { grid-template-columns: 1fr; }
-  .product-demo-frame { min-height: 360px; }
+  .product-demo-frame { min-height: 420px; }
+  .product-demo-scene { min-height: 380px; }
 }

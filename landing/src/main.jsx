@@ -4,6 +4,7 @@ import CardNav from './CardNav';
 import ProductDemo from './ProductDemo';
 import LiveDashboard from './LiveDashboard';
 import IntroCopy from './IntroCopy';
+import HeroHeadline from './HeroHeadline';
 
 const navItems = [
   {
@@ -62,3 +63,4 @@ mount('card-nav-root', (
 mount('product-demo-root', <ProductDemo />);
 mount('live-dashboard-root', <LiveDashboard />);
 mount('intro-copy-root', <IntroCopy />);
+mount('hero-headline-root', <HeroHeadline />);
