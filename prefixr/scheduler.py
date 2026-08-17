@@ -51,6 +51,11 @@ DEFAULT_PRICING: dict[str, ProviderPricing] = {
       price_uncached_per_mtok=0.30,
       price_cached_per_mtok=0.075,  # ~25% with context caching
   ),
+  "openrouter": ProviderPricing(
+      provider="openrouter",
+      price_uncached_per_mtok=2.50,
+      price_cached_per_mtok=1.25,  # pass-through; varies by routed model
+  ),
 }
 
 # Cheap summarizer models (USD per million input tokens)

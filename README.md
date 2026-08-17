@@ -2,7 +2,7 @@
 
 Local-first, provider cache-aware context scheduler for LLM API calls.
 
-Prefixr runs as a local proxy on your machine, intercepting outbound API payloads bound for Anthropic, OpenAI, or DeepSeek before they leave your system. On every turn, it runs a cost optimization algorithm that computes whether it is cheaper to preserve the existing prefix cache or to summarize/prune context now and accept a one-turn cache bust in exchange for savings over the next N turns.
+Prefixr runs as a local proxy on your machine, intercepting outbound API payloads bound for Anthropic, OpenAI, DeepSeek, Gemini, or OpenRouter before they leave your system. On every turn, it runs a cost optimization algorithm that computes whether it is cheaper to preserve the existing prefix cache or to summarize/prune context now and accept a one-turn cache bust in exchange for savings over the next N turns.
 
 Everything runs on your machine with your own API keys. No data leaves your machine except the API calls you were already making — Prefixr just makes them cheaper.
 
@@ -69,6 +69,13 @@ response = client.chat.completions.create(
     messages=[{"role": "user", "content": "Hello"}]
 )
 
+# OpenRouter (use vendor/model IDs)
+client = PrefixrClient(provider="openrouter")
+response = client.chat.completions.create(
+    model="anthropic/claude-sonnet-4-5",
+    messages=[{"role": "user", "content": "Hello"}]
+)
+
 # Drop-in Anthropic replacement
 client = PrefixrClient(provider="anthropic")
 response = client.messages.create(
@@ -103,7 +110,7 @@ If preserve costs more, Prefixr triggers summarization. Otherwise it tries cache
 prefixr init                          # interactive setup
 prefixr run                           # start proxy + dashboard
 prefixr run --port 4242               # custom port
-prefixr run --providers anthropic,openai
+prefixr run --providers anthropic,openai,openrouter
 prefixr stats                         # lifetime stats
 prefixr stats --session <id>          # specific session
 prefixr stats --json                  # machine-readable
@@ -122,6 +129,8 @@ Config lives at `~/.prefixr/config.json`:
   "anthropic_api_key": "...",
   "openai_api_key": "...",
   "deepseek_api_key": "...",
+  "gemini_api_key": "...",
+  "openrouter_api_key": "...",
   "port": 4242,
   "optimizer": {
     "horizon_turns": 5,
@@ -144,7 +153,7 @@ Your Agent / curl / Python script
         ├── SessionLedger (SQLite) ← token offsets, cache events, cost deltas
         ├── CacheOptimizer ← cost_preserve(N) vs cost_summarize(N)
         ├── ContextManipulator ← anchor split, padding, timestamp scrub
-        ├── ProviderAdapter ← Anthropic, OpenAI, DeepSeek
+        ├── ProviderAdapter ← Anthropic, OpenAI, DeepSeek, Gemini, OpenRouter
         └── EventBus → Dashboard (WebSocket live feed)
 ```
 

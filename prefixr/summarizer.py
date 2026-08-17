@@ -67,10 +67,17 @@ class AnthropicSummarizer(Summarizer):
 
 
 class OpenAISummarizer(Summarizer):
-    def __init__(self, api_key: str, model: str = "gpt-4o-mini"):
+    def __init__(
+        self,
+        api_key: str,
+        model: str = "gpt-4o-mini",
+        base_url: str = "https://api.openai.com",
+        extra_headers: dict[str, str] | None = None,
+    ):
         self.api_key = api_key
         self.model = model
-        self.base_url = "https://api.openai.com"
+        self.base_url = base_url
+        self.extra_headers = extra_headers or {}
 
     async def summarize(
         self,
@@ -95,6 +102,7 @@ class OpenAISummarizer(Summarizer):
                 headers={
                     "Authorization": f"Bearer {self.api_key}",
                     "content-type": "application/json",
+                    **self.extra_headers,
                 },
                 json={
                     "model": self.model,
@@ -112,6 +120,16 @@ def create_summarizer(
     api_key: str,
     model: str,
 ) -> Summarizer:
+    if provider == "openrouter":
+        return OpenAISummarizer(
+            api_key,
+            model,
+            base_url="https://openrouter.ai/api",
+            extra_headers={
+                "HTTP-Referer": "https://github.com/svijay11/prefixr",
+                "X-Title": "Prefixr",
+            },
+        )
     if provider == "openai":
         return OpenAISummarizer(api_key, model)
     return AnthropicSummarizer(api_key, model)

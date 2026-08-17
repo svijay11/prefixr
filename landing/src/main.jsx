@@ -25,7 +25,7 @@ const navItems = [
     links: [
       { label: 'Cursor', href: 'https://github.com/svijay11/prefixr/blob/main/docs/CURSOR.md', ariaLabel: 'Cursor setup guide' },
       { label: 'OpenAI & Anthropic', href: '#features', ariaLabel: 'Supported providers' },
-      { label: 'Gemini & DeepSeek', href: '#features', ariaLabel: 'More providers' },
+      { label: 'OpenRouter & Gemini', href: '#features', ariaLabel: 'More providers' },
     ],
   },
   {

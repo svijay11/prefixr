@@ -36,6 +36,12 @@ PROVIDER_URLS = {
     "openai": "https://api.openai.com",
     "deepseek": "https://api.deepseek.com",
     "gemini": "https://generativelanguage.googleapis.com/v1beta/openai",
+    "openrouter": "https://openrouter.ai/api",
+}
+
+OPENROUTER_HEADERS = {
+    "HTTP-Referer": "https://github.com/svijay11/prefixr",
+    "X-Title": "Prefixr",
 }
 
 
@@ -54,7 +60,9 @@ class PrefixrProxy:
         db_path: Path | None = None,
     ):
         self.config = config
-        self.active_providers = active_providers or ["anthropic", "openai", "deepseek", "gemini"]
+        self.active_providers = active_providers or [
+            "anthropic", "openai", "deepseek", "gemini", "openrouter"
+        ]
         self.ledger = SessionLedger(db_path)
         self.event_bus = EventBus(self.ledger)
         self.manipulator = ContextManipulator(
@@ -65,8 +73,22 @@ class PrefixrProxy:
 
     def _get_summarizer(self):
         opt = self.config.optimizer
-        api_key = self.config.get_api_key(opt.summarizer_provider)
-        return create_summarizer(opt.summarizer_provider, api_key, opt.summarizer_model)
+        provider = opt.summarizer_provider
+        api_key = self.config.get_api_key(provider)
+        model = opt.summarizer_model
+        if not api_key and self.config.openrouter_api_key:
+            provider = "openrouter"
+            api_key = self.config.openrouter_api_key
+            if "/" not in model:
+                if model.startswith("claude-"):
+                    model = f"anthropic/{model}"
+                elif model.startswith("gemini-"):
+                    model = f"google/{model}"
+                elif model.startswith("deepseek-"):
+                    model = f"deepseek/{model}"
+                else:
+                    model = f"openai/{model}"
+        return create_summarizer(provider, api_key, model)
 
     def _resolve_session(
         self,
@@ -175,6 +197,11 @@ class PrefixrProxy:
         auth_header: str | None,
     ) -> JSONResponse:
         adapter = detect_adapter(payload, self.active_providers)
+        incoming_key = None
+        if auth_header and auth_header.startswith("Bearer "):
+            incoming_key = auth_header[7:]
+        if incoming_key and incoming_key.startswith("sk-or-"):
+            adapter = get_adapter("openrouter")
         provider = adapter.provider_name
         model = payload.get("model", "unknown")
         session_id = self._resolve_session(session_header, provider, model)
@@ -193,6 +220,8 @@ class PrefixrProxy:
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
         }
+        if provider == "openrouter":
+            headers.update(OPENROUTER_HEADERS)
 
         resp = await self.forward_request("POST", url, headers, payload)
 

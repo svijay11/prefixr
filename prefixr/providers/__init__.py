@@ -7,12 +7,14 @@ from prefixr.providers.anthropic import AnthropicAdapter
 from prefixr.providers.base import CacheEventData, ProviderAdapter
 from prefixr.providers.deepseek import DeepSeekAdapter
 from prefixr.providers.openai import OpenAIAdapter
+from prefixr.providers.openrouter import OpenRouterAdapter
 
 __all__ = [
     "AnthropicAdapter",
     "OpenAIAdapter",
     "DeepSeekAdapter",
     "GeminiAdapter",
+    "OpenRouterAdapter",
     "ProviderAdapter",
     "CacheEventData",
 ]
@@ -24,6 +26,7 @@ def get_adapter(provider: str) -> ProviderAdapter:
         "openai": OpenAIAdapter,
         "deepseek": DeepSeekAdapter,
         "gemini": GeminiAdapter,
+        "openrouter": OpenRouterAdapter,
     }
     cls = adapters.get(provider)
     if cls is None:
@@ -33,7 +36,7 @@ def get_adapter(provider: str) -> ProviderAdapter:
 
 def detect_adapter(payload: dict[str, Any], active_providers: list[str] | None = None) -> ProviderAdapter:
     # Order matters: specific detectors before openai fallback
-    order = active_providers or ["anthropic", "gemini", "deepseek", "openai"]
+    order = active_providers or ["anthropic", "gemini", "deepseek", "openrouter", "openai"]
     candidates = []
     for name in order:
         adapter = get_adapter(name)

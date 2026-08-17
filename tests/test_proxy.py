@@ -11,7 +11,7 @@ from prefixr.proxy import create_app
 def client(tmp_path):
     config = PrefixrConfig()
     db = tmp_path / "test.db"
-    app = create_app(config, ["openai", "anthropic", "deepseek"], db)
+    app = create_app(config, ["openai", "anthropic", "deepseek", "openrouter"], db)
     return TestClient(app)
 
 
@@ -60,6 +60,16 @@ class TestProxyEndpoints:
             "/v1/chat/completions",
             json={
                 "model": "gpt-4o",
+                "messages": [{"role": "user", "content": "Hello"}],
+            },
+        )
+        assert resp.status_code == 401
+
+    def test_openrouter_no_key(self, client):
+        resp = client.post(
+            "/v1/chat/completions",
+            json={
+                "model": "openai/gpt-4o",
                 "messages": [{"role": "user", "content": "Hello"}],
             },
         )

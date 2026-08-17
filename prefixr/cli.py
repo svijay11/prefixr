@@ -40,6 +40,9 @@ def init():
     config.gemini_api_key = click.prompt(
         "Gemini API key (Google AI Studio)", default=config.gemini_api_key, hide_input=True
     )
+    config.openrouter_api_key = click.prompt(
+        "OpenRouter API key", default=config.openrouter_api_key, hide_input=True
+    )
     config.port = click.prompt("Proxy port", default=config.port, type=int)
     config.optimizer.horizon_turns = click.prompt(
         "Optimizer horizon (turns)", default=config.optimizer.horizon_turns, type=int
@@ -58,7 +61,7 @@ def init():
 @click.option(
     "--providers",
     default=None,
-    help="Comma-separated active providers (anthropic,openai,deepseek)",
+    help="Comma-separated active providers (anthropic,openai,deepseek,gemini,openrouter)",
 )
 def run(port: int | None, providers: str | None):
     """Start local proxy + dashboard."""
@@ -153,6 +156,7 @@ def doctor():
         ("OpenAI", config.openai_api_key),
         ("DeepSeek", config.deepseek_api_key),
         ("Gemini", config.gemini_api_key),
+        ("OpenRouter", config.openrouter_api_key),
     ]:
         if key:
             click.echo(f"✓ {name} API key configured")

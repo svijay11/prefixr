@@ -6,7 +6,7 @@ Cursor is a **client**, not an LLM provider. There is no "Cursor API key" to add
 
 When you use Cursor, you either:
 - Use **Cursor's built-in models** (billed through Cursor subscription) — Prefixr cannot intercept these
-- Use **Bring Your Own Key (BYOK)** with OpenAI, Anthropic, or Google keys — Prefixr **can** optimize these
+- Use **Bring Your Own Key (BYOK)** with OpenAI, Anthropic, Google, or OpenRouter keys — Prefixr **can** optimize these
 
 Tab autocomplete, some Composer features, and other Cursor-native features stay on Cursor's backend and **won't** route through Prefixr.
 
@@ -15,7 +15,7 @@ Tab autocomplete, some Composer features, and other Cursor-native features stay 
 ### 1. Start Prefixr locally
 
 ```bash
-prefixr init    # add your OpenAI / Anthropic / Gemini keys
+prefixr init    # add your OpenAI / Anthropic / Gemini / OpenRouter keys
 prefixr run
 ```
 
@@ -32,6 +32,7 @@ prefixr run
    - `gpt-4o` (OpenAI)
    - `claude-sonnet-4-5` (Anthropic — use `/v1/messages` path separately if needed)
    - `gemini-2.5-flash` (Gemini)
+   - `openai/gpt-4o` or `anthropic/claude-sonnet-4-5` (OpenRouter — vendor/model IDs)
 
 ### 3. Watch the dashboard
 
@@ -44,6 +45,7 @@ Open http://localhost:4242/dashboard while coding in Cursor. You'll see cache hi
 | Custom OpenAI-compatible chat | Yes | Override base URL to `localhost:4242/v1` |
 | Anthropic Claude (BYOK) | Yes | May need OpenAI-compat wrapper or direct API config |
 | Gemini (BYOK) | Yes | Use model name `gemini-2.5-flash` etc. |
+| OpenRouter (BYOK) | Yes | Use OpenRouter model IDs like `openai/gpt-4o` |
 | Cursor Tab / native Composer | No | Locked to Cursor backend |
 
 ## Troubleshooting

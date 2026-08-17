@@ -15,6 +15,7 @@ DEFAULT_CONFIG = {
     "openai_api_key": "",
     "deepseek_api_key": "",
     "gemini_api_key": "",
+    "openrouter_api_key": "",
     "port": 4242,
     "prefixr_api_key": "",
     "optimizer": {
@@ -42,6 +43,7 @@ class PrefixrConfig:
     openai_api_key: str = ""
     deepseek_api_key: str = ""
     gemini_api_key: str = ""
+    openrouter_api_key: str = ""
     port: int = 4242
     prefixr_api_key: str = ""
     optimizer: OptimizerConfig = field(default_factory=OptimizerConfig)
@@ -58,6 +60,7 @@ class PrefixrConfig:
             openai_api_key=data.get("openai_api_key", ""),
             deepseek_api_key=data.get("deepseek_api_key", ""),
             gemini_api_key=data.get("gemini_api_key", ""),
+            openrouter_api_key=data.get("openrouter_api_key", ""),
             port=data.get("port", 4242),
             prefixr_api_key=data.get("prefixr_api_key", ""),
             optimizer=OptimizerConfig(
@@ -77,6 +80,7 @@ class PrefixrConfig:
             "openai_api_key": self.openai_api_key,
             "deepseek_api_key": self.deepseek_api_key,
             "gemini_api_key": self.gemini_api_key,
+            "openrouter_api_key": self.openrouter_api_key,
             "port": self.port,
             "prefixr_api_key": self.prefixr_api_key,
             "optimizer": {
@@ -95,6 +99,7 @@ class PrefixrConfig:
             "openai": self.openai_api_key,
             "deepseek": self.deepseek_api_key,
             "gemini": self.gemini_api_key,
+            "openrouter": self.openrouter_api_key,
         }
         return keys.get(provider, "")
 
