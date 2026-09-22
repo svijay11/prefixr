@@ -6,7 +6,7 @@
   <title>Prefixr — The cache scheduler for back-to-back agent turns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #eef3fa;
@@ -20,7 +20,6 @@
       --muted: #5c6b7f;
       --link-accent: #2563eb;
       --accent-teal: #0d9488;
-      --accent-violet: #6366f1;
       --accent-amber: #d97706;
       --bg-warm: #f5f1ec;
       --surface: rgba(255, 255, 255, 0.82);
@@ -42,6 +41,7 @@
       --serif: 'Instrument Serif', Georgia, serif;
       --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      --marquee-bg: var(--section-cool);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -189,47 +189,39 @@
 
     .reveal {
       opacity: 0;
-      transform: translateY(64px) scale(0.92);
-      filter: blur(6px);
-      transition:
-        opacity 1.05s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 1.05s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform, filter;
+      transform: translateY(28px);
+      will-change: opacity, transform;
     }
-    .reveal.visible {
+    .reveal.gsap-ready {
+      /* GSAP owns reveal motion; disable CSS transitions */
+      transition: none;
+    }
+    .reveal.visible,
+    .reveal-left.visible,
+    .reveal-right.visible,
+    .reveal-scale.visible {
       opacity: 1;
-      transform: translateY(0) scale(1);
-      filter: blur(0);
+      transform: none;
+      filter: none;
     }
     .reveal-left {
-      transform: translateX(-56px) scale(0.94);
-      filter: blur(5px);
-    }
-    .reveal-left.visible {
-      transform: translateX(0) scale(1);
-      filter: blur(0);
+      opacity: 0;
+      transform: translateX(-28px);
     }
     .reveal-right {
-      transform: translateX(56px) scale(0.94);
-      filter: blur(5px);
-    }
-    .reveal-right.visible {
-      transform: translateX(0) scale(1);
-      filter: blur(0);
+      opacity: 0;
+      transform: translateX(28px);
     }
     .reveal-scale {
-      transform: scale(0.88);
-      filter: blur(8px);
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
     }
-    .reveal-scale.visible {
-      transform: scale(1);
-      filter: blur(0);
+    .reveal-delay-1,
+    .reveal-delay-2,
+    .reveal-delay-3,
+    .reveal-delay-4 {
+      /* delays handled by GSAP when present */
     }
-    .reveal-delay-1 { transition-delay: 0.15s; }
-    .reveal-delay-2 { transition-delay: 0.3s; }
-    .reveal-delay-3 { transition-delay: 0.45s; }
-    .reveal-delay-4 { transition-delay: 0.6s; }
 
     /* Section blocks — distinct but cohesive */
     .section-block {
@@ -248,7 +240,7 @@
     .section--gray {
       background-color: var(--section-cool);
       background-image:
-        radial-gradient(ellipse 80% 55% at 85% 0%, rgba(99, 102, 241, 0.07), transparent 55%),
+        radial-gradient(ellipse 80% 55% at 85% 0%, rgba(37, 99, 235, 0.05), transparent 55%),
         radial-gradient(ellipse 60% 45% at 5% 80%, rgba(13, 148, 136, 0.05), transparent 50%);
     }
     .section-inner {
@@ -573,30 +565,11 @@
     /* Logos */
     .logos {
       text-align: center;
+      overflow: hidden;
     }
-    .logos p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-    }
-    .logo-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: clamp(1.5rem, 4vw, 2.5rem);
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .logo-row span {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--muted);
-      letter-spacing: -0.02em;
-      padding: 0.5rem 1rem;
-      background: rgba(255, 255, 255, 0.65);
-      border: 1px solid var(--border);
-      border-radius: 999px;
+    .section--logos {
+      background: var(--section-cool);
+      --marquee-bg: var(--section-cool);
     }
 
     /* Features */
@@ -659,7 +632,7 @@
     }
     .tab[data-tab="before"].active { background: #2563eb; }
     .tab[data-tab="during"].active { background: #0d9488; }
-    .tab[data-tab="after"].active { background: #6366f1; }
+    .tab[data-tab="after"].active { background: #1c2738; }
     .feature-panel {
       display: none;
       grid-template-columns: 1fr 1fr;
@@ -769,7 +742,7 @@
     }
     .step:nth-child(1) .step-num { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
     .step:nth-child(2) .step-num { background: rgba(13, 148, 136, 0.12); color: #0d9488; }
-    .step:nth-child(3) .step-num { background: rgba(99, 102, 241, 0.12); color: #6366f1; }
+    .step:nth-child(3) .step-num { background: rgba(20, 28, 43, 0.08); color: #141c2b; }
     .step h3 {
       font-size: 1rem;
       font-weight: 600;
@@ -906,7 +879,10 @@
 
   <section class="section-block section--white" id="install">
     <div class="section-inner hero">
-      <a href="#how" class="section-eyebrow reveal">Get started ›</a>
+      <div class="reveal" style="text-align:center;">
+        <a href="#how" class="section-eyebrow">Get started ›</a>
+        <h2 class="section-heading section-heading-center">Install in one command.</h2>
+      </div>
       <div class="terminal-wrap reveal reveal-delay-1" id="terminal-parallax">
       <div class="terminal">
         <div class="terminal-chrome">
@@ -976,18 +952,9 @@
     </div>
   </section>
 
-  <section class="section-block section--gray">
+  <section class="section-block section--logos" id="integrations">
     <div class="section-inner logos">
-      <p class="reveal">Works with every tool you already use</p>
-      <div class="logo-row reveal reveal-delay-1">
-      <span>Cursor</span>
-      <span>OpenAI</span>
-      <span>Anthropic</span>
-      <span>OpenRouter</span>
-      <span>Gemini</span>
-      <span>LangChain</span>
-      <span>curl</span>
-      </div>
+      <div id="logos-marquee-root" class="reveal"></div>
     </div>
   </section>
 
@@ -1131,42 +1098,6 @@
 
   <script type="module" src="/src/main.jsx"></script>
   <script>
-    // Scroll reveal
-    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          revealObserver.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.06, rootMargin: '0px 0px -80px 0px' });
-    revealEls.forEach(el => revealObserver.observe(el));
-
-    // Hero reveals on load (already in viewport)
-    document.querySelectorAll('.hero-center .reveal').forEach((el, i) => {
-      setTimeout(() => el.classList.add('visible'), 180 + i * 140);
-    });
-
-    // Subtle terminal parallax on scroll (lightweight)
-    const terminalParallax = document.getElementById('terminal-parallax');
-    let ticking = false;
-    function onScroll() {
-      if (!terminalParallax || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const rect = terminalParallax.getBoundingClientRect();
-          const center = rect.top + rect.height / 2;
-          const viewCenter = window.innerHeight / 2;
-          const offset = (center - viewCenter) * 0.035;
-          terminalParallax.style.transform = `translateY(${offset}px)`;
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-
     // Tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
@@ -1175,10 +1106,6 @@
         tab.classList.add('active');
         const panel = document.getElementById('panel-' + tab.dataset.tab);
         panel.classList.add('active');
-        panel.querySelectorAll('.reveal-left, .reveal-right').forEach(el => {
-          el.classList.remove('visible');
-          requestAnimationFrame(() => el.classList.add('visible'));
-        });
       });
     });
 
@@ -1202,7 +1129,15 @@
       savedEl.textContent = '$' + current.toFixed(4);
       if (current < target) requestAnimationFrame(countStep);
     };
-    countStep();
+    if (savedEl) {
+      const savedObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          countStep();
+          savedObserver.disconnect();
+        }
+      }, { threshold: 0.4 });
+      savedObserver.observe(savedEl);
+    }
   </script>
 </body>
 </html>

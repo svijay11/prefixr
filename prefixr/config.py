@@ -3,12 +3,21 @@
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 CONFIG_DIR = Path.home() / ".prefixr"
 CONFIG_PATH = CONFIG_DIR / "config.json"
+
+PROVIDER_ENV_VARS = {
+    "anthropic": "ANTHROPIC_API_KEY",
+    "openai": "OPENAI_API_KEY",
+    "deepseek": "DEEPSEEK_API_KEY",
+    "gemini": "GEMINI_API_KEY",
+    "openrouter": "OPENROUTER_API_KEY",
+}
 
 DEFAULT_CONFIG = {
     "anthropic_api_key": "",
@@ -94,6 +103,11 @@ class PrefixrConfig:
         config_path.write_text(json.dumps(data, indent=2))
 
     def get_api_key(self, provider: str) -> str:
+        env_name = PROVIDER_ENV_VARS.get(provider)
+        if env_name:
+            env_key = os.environ.get(env_name, "").strip()
+            if env_key:
+                return env_key
         keys = {
             "anthropic": self.anthropic_api_key,
             "openai": self.openai_api_key,

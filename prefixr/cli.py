@@ -12,7 +12,7 @@ import uvicorn
 
 from prefixr import __version__
 from prefixr.cache import SessionLedger
-from prefixr.config import CONFIG_PATH, PrefixrConfig
+from prefixr.config import CONFIG_PATH, PROVIDER_ENV_VARS, PrefixrConfig
 from prefixr.proxy import create_app
 
 
@@ -54,6 +54,26 @@ def init():
     config.save()
     click.echo(f"\nConfig saved to {CONFIG_PATH}")
     click.echo(f"Run: prefixr run")
+
+
+@cli.command("set-key")
+@click.argument("provider", type=click.Choice(sorted(PROVIDER_ENV_VARS)))
+def set_key(provider: str):
+    """Save a provider API key (visible paste — easier than prefixr init)."""
+    config = PrefixrConfig.load()
+    current = getattr(config, f"{provider}_api_key")
+    key = click.prompt(
+        f"{provider} API key (paste is visible)",
+        default=current,
+        hide_input=False,
+        show_default=bool(current),
+    ).strip()
+    setattr(config, f"{provider}_api_key", key)
+    config.save()
+    if key:
+        click.echo(f"Saved {provider} key to {CONFIG_PATH}")
+    else:
+        click.echo(f"Cleared {provider} key in {CONFIG_PATH}")
 
 
 @cli.command()
@@ -151,14 +171,14 @@ def doctor():
         issues.append("no_config")
 
     # API keys
-    for name, key in [
-        ("Anthropic", config.anthropic_api_key),
-        ("OpenAI", config.openai_api_key),
-        ("DeepSeek", config.deepseek_api_key),
-        ("Gemini", config.gemini_api_key),
-        ("OpenRouter", config.openrouter_api_key),
+    for name, provider in [
+        ("Anthropic", "anthropic"),
+        ("OpenAI", "openai"),
+        ("DeepSeek", "deepseek"),
+        ("Gemini", "gemini"),
+        ("OpenRouter", "openrouter"),
     ]:
-        if key:
+        if config.get_api_key(provider):
             click.echo(f"✓ {name} API key configured")
         else:
             click.echo(f"– {name} API key not set")
