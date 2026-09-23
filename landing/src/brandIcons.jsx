@@ -46,15 +46,6 @@ export const BrandIcons = {
       />
     </svg>
   ),
-  LangChain: (
-    <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
-      <title>LangChain</title>
-      <path
-        fill="currentColor"
-        d="M10.2 4.1a3.1 3.1 0 0 1 3.6 0l.3.25a.7.7 0 0 0 .86 0l.3-.25a3.1 3.1 0 0 1 3.6 0l1.35 1.13a3.1 3.1 0 0 1 0 4.8l-.25.21a.7.7 0 0 0 0 .96l.25.21a3.1 3.1 0 0 1 0 4.8L18.86 18.2a3.1 3.1 0 0 1-3.6 0l-.3-.25a.7.7 0 0 0-.86 0l-.3.25a3.1 3.1 0 0 1-3.6 0L8.85 18.2a3.1 3.1 0 0 1 0-4.8l.25-.21a.7.7 0 0 0 0-.96l-.25-.21a3.1 3.1 0 0 1 0-4.8L10.2 4.1Zm1.8 4.4a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"
-      />
-    </svg>
-  ),
   curl: (
     <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
       <title>curl</title>

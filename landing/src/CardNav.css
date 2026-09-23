@@ -1,9 +1,9 @@
 .card-nav-container {
   position: fixed;
-  top: 1.25rem;
+  top: 1.15rem;
   left: 50%;
   transform: translateX(-50%);
-  width: min(90%, 800px);
+  width: min(90%, 760px);
   z-index: 200;
   box-sizing: border-box;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -13,13 +13,14 @@
   display: block;
   height: 58px;
   padding: 0;
-  background-color: #ffffff;
-  border: 1px solid rgba(20, 28, 43, 0.08);
-  border-radius: 0.75rem;
-  box-shadow: 0 8px 32px rgba(20, 28, 43, 0.1);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(17, 17, 17, 0.07);
+  border-radius: 1rem;
+  box-shadow: 0 10px 32px rgba(17, 17, 17, 0.07);
   position: relative;
   overflow: hidden;
   will-change: height;
+  backdrop-filter: blur(16px) saturate(160%);
 }
 
 .card-nav-top {

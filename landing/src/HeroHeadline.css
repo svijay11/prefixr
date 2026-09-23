@@ -1,18 +1,20 @@
 .hero-headline {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+  font-size: clamp(2.35rem, 5.8vw, 3.85rem);
   font-weight: 600;
   line-height: 1.08;
   letter-spacing: -0.035em;
-  color: var(--text, #1a2332);
+  color: #111111;
   justify-content: center;
   width: 100%;
-  max-width: 820px;
+  max-width: 18ch;
   margin: 0 auto;
+  text-wrap: balance;
 }
 
 @media (max-width: 768px) {
   .hero-headline {
-    font-size: 2rem;
+    font-size: clamp(2rem, 8vw, 2.75rem);
+    max-width: 16ch;
   }
 }

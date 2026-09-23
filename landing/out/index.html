@@ -55,28 +55,18 @@
       overflow-x: hidden;
     }
 
-    /* CardNav is mounted via React — see src/CardNav.css */
+    /* Hero landing — Handhold-inspired clean white */
     .hero-sky {
       position: relative;
-      min-height: 100vh;
-      min-height: 100dvh;
+      min-height: calc(100vh - 5.75rem);
+      min-height: calc(100dvh - 5.75rem);
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      background: #ffffff;
     }
     .sky-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.55) 85%, var(--bg) 100%),
-        url('https://images.unsplash.com/photo-1592210454359-9043f067919b?auto=format&fit=crop&w=2000&q=80') center 30% / cover no-repeat;
-    }
-    .sky-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 50%, rgba(250,248,245,0.92) 92%, var(--section-warm) 100%);
+      display: none;
     }
 
     /* Buttons */
@@ -106,23 +96,47 @@
     .btn-hero {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
-      margin-top: 1.75rem;
-      padding: 0.85rem 1.5rem;
-      background: var(--ink);
+      gap: 0.55rem;
+      padding: 0.85rem 1.45rem;
+      background: #111111;
       color: white;
       border-radius: 999px;
       font-size: 0.9375rem;
       font-weight: 500;
       text-decoration: none;
       transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-      box-shadow: 0 8px 24px rgba(20, 28, 43, 0.18);
+      box-shadow: 0 8px 24px rgba(17, 17, 17, 0.14);
     }
     .btn-hero:hover {
-      background: var(--accent-hover);
-      box-shadow: 0 12px 32px rgba(20, 28, 43, 0.22);
+      background: #2a2a2a;
+      box-shadow: 0 12px 28px rgba(17, 17, 17, 0.18);
     }
-    .btn-hero svg { width: 16px; height: 16px; opacity: 0.9; }
+    .btn-hero:active { transform: scale(0.97); }
+    .btn-hero svg { width: 15px; height: 15px; opacity: 0.95; }
+
+    .btn-hero-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.85rem 1.45rem;
+      background: #f3f3f3;
+      color: #111111;
+      border-radius: 999px;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn-hero-secondary:hover { background: #e8e8e8; }
+    .btn-hero-secondary:active { transform: scale(0.97); }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-top: 1.75rem;
+    }
 
     .btn-ghost {
       background: transparent;
@@ -139,45 +153,33 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       text-align: center;
-      padding: 5.5rem 1.5rem 5rem;
-      max-width: 820px;
+      padding: 9.5rem 1.5rem 12rem;
+      max-width: 900px;
       margin: 0 auto;
+      width: 100%;
     }
     .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      border: 1px solid rgba(37, 99, 235, 0.2);
-      background: rgba(255, 255, 255, 0.45);
-      backdrop-filter: blur(8px);
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--link-accent);
-      text-decoration: none;
-      margin-bottom: 1.75rem;
-      transition: background 0.2s;
+      display: none;
     }
-    .hero-badge:hover { background: rgba(255, 255, 255, 0.55); }
 
     .hero-center h1 {
       font-family: var(--sans);
-      font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+      font-size: clamp(2.35rem, 5.8vw, 3.85rem);
       font-weight: 600;
       line-height: 1.08;
       letter-spacing: -0.035em;
-      color: var(--text);
+      color: #111111;
     }
     .hero-center .hero-lead {
-      margin-top: 1.25rem;
-      font-size: 1.05rem;
-      color: rgba(26, 26, 26, 0.82);
-      text-shadow: 0 1px 16px rgba(255, 255, 255, 0.55);
-      line-height: 1.6;
-      max-width: 460px;
+      margin-top: 1.15rem;
+      font-size: 1.0625rem;
+      color: #5c5c5c;
+      text-shadow: none;
+      line-height: 1.55;
+      max-width: 34ch;
+      font-weight: 400;
     }
 
     /* Content below sky */
@@ -562,14 +564,16 @@
     .badge-pad { background: rgba(13, 148, 136, 0.12); color: #0f766e; }
     .turn-reason { font-size: 0.75rem; color: var(--muted); line-height: 1.55; }
 
-    /* Logos */
-    .logos {
-      text-align: center;
-      overflow: hidden;
+    /* Logos under hero thread */
+    .footer-logos {
+      position: relative;
+      z-index: 2;
+      background: #ffffff;
+      padding: 1.35rem clamp(1.25rem, 4vw, 2.5rem) 2.5rem;
     }
-    .section--logos {
-      background: var(--section-cool);
-      --marquee-bg: var(--section-cool);
+    .footer-logos-inner {
+      max-width: 1080px;
+      margin: 0 auto;
     }
 
     /* Features */
@@ -845,31 +849,39 @@
       .terminal-cursor { animation: none; }
     }
   </style>
-  <script type="module" crossorigin src="/assets/index-eR-3uV8b.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-C6HQW5MB.css">
+  <script type="module" crossorigin src="/assets/index-B3gnaQ1A.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BbXUwPLX.css">
 </head>
 <body>
 
   <header class="hero-sky">
-    <div class="sky-bg" aria-hidden="true"></div>
-
     <div id="card-nav-root"></div>
 
     <div class="hero-center">
-      <a href="https://github.com/svijay11/prefixr" class="hero-badge reveal">Open source on GitHub ›</a>
       <div id="hero-headline-root"></div>
       <p class="hero-lead reveal">
-        Prefixr intercepts your LLM API calls locally and decides every turn
-        whether to preserve your prefix cache or summarize now.
+        Cache-aware scheduling for LLM calls — preserve prefix hits or summarize when it pays.
       </p>
-      <a href="#install" class="btn-hero reveal">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
-        Install prefixr
-      </a>
+      <div class="hero-cta-row reveal">
+        <a href="#install" class="btn-hero">
+          Install prefixr
+        </a>
+        <a href="#demo" class="btn-hero-secondary">
+          See how it works
+        </a>
+      </div>
     </div>
+
+    <div id="hero-thread-root"></div>
   </header>
 
-  <section class="section-block section--gray" id="demo">
+  <section class="footer-logos" id="integrations" aria-label="Integrations">
+    <div class="footer-logos-inner">
+      <div id="logos-marquee-root"></div>
+    </div>
+  </section>
+
+  <section class="section-block section--gray" id="demo" style="border-top: none;">
     <div class="section-inner">
       <div class="reveal" style="text-align:center;">
         <a href="#install" class="section-eyebrow">See it in action ›</a>
@@ -881,7 +893,10 @@
 
   <section class="section-block section--white" id="install">
     <div class="section-inner hero">
-      <a href="#how" class="section-eyebrow reveal">Get started ›</a>
+      <div class="reveal" style="text-align:center;">
+        <a href="#how" class="section-eyebrow">Get started ›</a>
+        <h2 class="section-heading section-heading-center">Install in one command.</h2>
+      </div>
       <div class="terminal-wrap reveal reveal-delay-1" id="terminal-parallax">
       <div class="terminal">
         <div class="terminal-chrome">
@@ -948,12 +963,6 @@
         <h2 class="section-heading section-heading-center">See every cache hit in real time.</h2>
       </div>
       <div id="live-dashboard-root" class="reveal reveal-scale reveal-delay-1"></div>
-    </div>
-  </section>
-
-  <section class="section-block section--logos" id="integrations">
-    <div class="section-inner logos">
-      <div id="logos-marquee-root" class="reveal"></div>
     </div>
   </section>
 

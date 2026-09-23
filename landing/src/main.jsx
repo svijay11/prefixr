@@ -6,6 +6,7 @@ import ProductDemo from './ProductDemo';
 import LiveDashboard from './LiveDashboard';
 import IntroCopy from './IntroCopy';
 import HeroHeadline from './HeroHeadline';
+import HeroThread from './HeroThread';
 import LogosMarquee from './LogosMarquee';
 import { initScrollAnimations } from './scrollAnimations';
 
@@ -55,7 +56,7 @@ mount('card-nav-root', (
     items={navItems}
     baseColor="#ffffff"
     menuColor="#141c2b"
-    buttonBgColor="#141c2b"
+    buttonBgColor="#111111"
     buttonTextColor="#fff"
     buttonLabel="Install"
     buttonHref="#install"
@@ -67,6 +68,7 @@ mount('product-demo-root', <ProductDemo />);
 mount('live-dashboard-root', <LiveDashboard />);
 mount('intro-copy-root', <IntroCopy />);
 mount('hero-headline-root', <HeroHeadline />);
+mount('hero-thread-root', <HeroThread />);
 mount('logos-marquee-root', <LogosMarquee />);
 
 initScrollAnimations();
